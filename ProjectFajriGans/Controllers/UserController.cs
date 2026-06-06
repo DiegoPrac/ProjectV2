@@ -60,5 +60,31 @@ namespace ProjectFajriGans.Controllers
                 }
             }
         }
+
+        public static string GetRole(string username)
+        {
+            using (NpgsqlConnection conn = DbConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query = @"
+            SELECT role
+            FROM users
+            WHERE username = @username";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@username", username);
+
+                    object result = cmd.ExecuteScalar();
+
+                    if (result == null)
+                        return "";
+
+                    return result.ToString();
+                }
+            }
+        }
+
     }
 }

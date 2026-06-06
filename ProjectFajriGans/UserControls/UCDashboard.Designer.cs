@@ -43,12 +43,8 @@
             lblTanggal = new Label();
             lblWelcome = new Label();
             pnlSearch = new Panel();
-            txtSearch = new TextBox();
+            txtCariBibit = new TextBox();
             picSearch = new PictureBox();
-            pnlCart = new Panel();
-            picCart = new PictureBox();
-            pnlNotif = new Panel();
-            picNotif = new PictureBox();
             pnlAvatar = new Panel();
             lblInitial = new Label();
             pnlTotalBibit = new Panel();
@@ -118,10 +114,6 @@
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             pnlSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picSearch).BeginInit();
-            pnlCart.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)picCart).BeginInit();
-            pnlNotif.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)picNotif).BeginInit();
             pnlAvatar.SuspendLayout();
             pnlTotalBibit.SuspendLayout();
             pnlStok.SuspendLayout();
@@ -272,6 +264,7 @@
             btnRiwayat.Text = "Riwayat";
             btnRiwayat.TextAlign = ContentAlignment.MiddleLeft;
             btnRiwayat.UseVisualStyleBackColor = false;
+            btnRiwayat.Click += btnRiwayat_Click;
             // 
             // lblTagline
             // 
@@ -335,22 +328,23 @@
             pnlSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pnlSearch.BackColor = Color.FromArgb(243, 247, 243);
             pnlSearch.BorderStyle = BorderStyle.FixedSingle;
-            pnlSearch.Controls.Add(txtSearch);
+            pnlSearch.Controls.Add(txtCariBibit);
             pnlSearch.Controls.Add(picSearch);
-            pnlSearch.Location = new Point(900, 40);
+            pnlSearch.Location = new Point(1003, 40);
             pnlSearch.Name = "pnlSearch";
             pnlSearch.Size = new Size(250, 40);
             pnlSearch.TabIndex = 3;
             // 
-            // txtSearch
+            // txtCariBibit
             // 
-            txtSearch.BorderStyle = BorderStyle.None;
-            txtSearch.ForeColor = Color.Gray;
-            txtSearch.Location = new Point(33, 6);
-            txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(180, 24);
-            txtSearch.TabIndex = 4;
-            txtSearch.Text = "Cari bibit...";
+            txtCariBibit.BorderStyle = BorderStyle.None;
+            txtCariBibit.ForeColor = Color.Gray;
+            txtCariBibit.Location = new Point(33, 6);
+            txtCariBibit.Name = "txtCariBibit";
+            txtCariBibit.PlaceholderText = "Cari Bibit...";
+            txtCariBibit.Size = new Size(180, 24);
+            txtCariBibit.TabIndex = 4;
+            txtCariBibit.TextChanged += txtCariBibit_TextChanged;
             // 
             // picSearch
             // 
@@ -362,47 +356,6 @@
             picSearch.Size = new Size(16, 16);
             picSearch.TabIndex = 4;
             picSearch.TabStop = false;
-            // 
-            // pnlCart
-            // 
-            pnlCart.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            pnlCart.BackColor = Color.FromArgb(243, 247, 243);
-            pnlCart.Controls.Add(picCart);
-            pnlCart.Location = new Point(1170, 40);
-            pnlCart.Name = "pnlCart";
-            pnlCart.Size = new Size(40, 40);
-            pnlCart.TabIndex = 4;
-            // 
-            // picCart
-            // 
-            picCart.BackgroundImage = Properties.Resources.cart;
-            picCart.BackgroundImageLayout = ImageLayout.Zoom;
-            picCart.Location = new Point(11, 11);
-            picCart.Name = "picCart";
-            picCart.Size = new Size(18, 18);
-            picCart.TabIndex = 5;
-            picCart.TabStop = false;
-            // 
-            // pnlNotif
-            // 
-            pnlNotif.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            pnlNotif.BackColor = Color.FromArgb(243, 247, 243);
-            pnlNotif.Controls.Add(picNotif);
-            pnlNotif.Location = new Point(1220, 40);
-            pnlNotif.Name = "pnlNotif";
-            pnlNotif.Size = new Size(40, 40);
-            pnlNotif.TabIndex = 5;
-            // 
-            // picNotif
-            // 
-            picNotif.BackColor = Color.Transparent;
-            picNotif.BackgroundImage = Properties.Resources.noitif;
-            picNotif.BackgroundImageLayout = ImageLayout.Zoom;
-            picNotif.Location = new Point(11, 11);
-            picNotif.Name = "picNotif";
-            picNotif.Size = new Size(18, 18);
-            picNotif.TabIndex = 6;
-            picNotif.TabStop = false;
             // 
             // pnlAvatar
             // 
@@ -1195,8 +1148,6 @@
             Controls.Add(pnlStok);
             Controls.Add(pnlTotalBibit);
             Controls.Add(pnlAvatar);
-            Controls.Add(pnlNotif);
-            Controls.Add(pnlCart);
             Controls.Add(pnlSearch);
             Controls.Add(lblWelcome);
             Controls.Add(lblTanggal);
@@ -1204,6 +1155,7 @@
             Name = "UCDashboard";
             Size = new Size(1366, 1100);
             Load += picCart_Load;
+            Click += btnLogout_Click;
             pnlSidebar.ResumeLayout(false);
             pnlSidebar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picCheckout).EndInit();
@@ -1214,10 +1166,6 @@
             pnlSearch.ResumeLayout(false);
             pnlSearch.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picSearch).EndInit();
-            pnlCart.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)picCart).EndInit();
-            pnlNotif.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)picNotif).EndInit();
             pnlAvatar.ResumeLayout(false);
             pnlAvatar.PerformLayout();
             pnlTotalBibit.ResumeLayout(false);
@@ -1265,11 +1213,7 @@
         private Label lblWelcome;
         private Panel pnlSearch;
         private PictureBox picSearch;
-        private TextBox txtSearch;
-        private Panel pnlCart;
-        private PictureBox picCart;
-        private Panel pnlNotif;
-        private PictureBox picNotif;
+        private TextBox txtCariBibit;
         private Panel pnlAvatar;
         private Label lblInitial;
         private Panel pnlTotalBibit;

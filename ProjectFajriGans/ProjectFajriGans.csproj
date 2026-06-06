@@ -9,6 +9,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\Bibit Alpukat.png" />
+    <None Remove="Resources\Images\Bibit Cabai.png" />
+    <None Remove="Resources\Images\Bibit Jambu.png" />
+    <None Remove="Resources\Images\Bibit Jeruk.png" />
+    <None Remove="Resources\Images\Bibit Mangga.png" />
+    <None Remove="Resources\Images\Bibit Rambutan.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Images\Bibit Alpukat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Bibit Cabai.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Bibit Jambu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Bibit Jeruk.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Bibit Mangga.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\Bibit Rambutan.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.2.0" />
     <PackageReference Include="Npgsql" Version="10.0.3" />
   </ItemGroup>

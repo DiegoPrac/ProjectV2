@@ -1,6 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
 using System.Windows.Forms;
+using System.Drawing;
 using ProjectFajriGans.Controllers;
 
 namespace ProjectFajriGans.UserControls
@@ -8,6 +10,7 @@ namespace ProjectFajriGans.UserControls
     public partial class UCDashboard : UserControl
     {
         public event Action PindahKeCheckout = delegate { };
+        public event Action PindahKeRiwayat = delegate { };
 
         private int stokMangga, stokCabai, stokJambu;
         private int stokJeruk, stokAlpukat, stokRambutan;
@@ -22,20 +25,68 @@ namespace ProjectFajriGans.UserControls
         public UCDashboard()
         {
             InitializeComponent();
-            AmbilStokDariDatabase();
+
+            lblTanggal.Text = DateTime.Now.ToString(
+                "dddd, dd MMMM yyyy",
+                new CultureInfo("id-ID")
+            );
+
+            AmbilProdukDariDatabase();
             UpdateStatistik();
         }
 
-        private void AmbilStokDariDatabase()
+        private string FormatRupiah(int angka)
         {
-            Dictionary<string, int> stok = BibitController.AmbilSemuaStok();
+            return "Rp " + angka.ToString("N0").Replace(",", ".");
+        }
 
-            stokMangga = stok["Bibit Mangga"];
-            stokCabai = stok["Bibit Cabai"];
-            stokJambu = stok["Bibit Jambu"];
-            stokJeruk = stok["Bibit Jeruk"];
-            stokAlpukat = stok["Bibit Alpukat"];
-            stokRambutan = stok["Bibit Rambutan"];
+        private void AmbilProdukDariDatabase()
+        {
+            DataTable dt = ProdukController.AmbilSemuaProduk();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string nama = row["nama"].ToString();
+                int stok = Convert.ToInt32(row["kuantitas"]);
+                int harga = Convert.ToInt32(row["harga"]);
+
+                if (nama == "Bibit Mangga")
+                {
+                    stokMangga = stok;
+                    lblHargaMangga.Text = FormatRupiah(harga);
+                    lblStokMangga.Text = "Stok: " + stok;
+                }
+                else if (nama == "Bibit Cabai")
+                {
+                    stokCabai = stok;
+                    lblHargaCabai.Text = FormatRupiah(harga);
+                    lblStokCabai.Text = "Stok: " + stok;
+                }
+                else if (nama == "Bibit Jambu")
+                {
+                    stokJambu = stok;
+                    label6.Text = FormatRupiah(harga);
+                    lblStokJambu.Text = "Stok: " + stok;
+                }
+                else if (nama == "Bibit Jeruk")
+                {
+                    stokJeruk = stok;
+                    lblHargaJeruk.Text = FormatRupiah(harga);
+                    lblStokJeruk.Text = "Stok: " + stok;
+                }
+                else if (nama == "Bibit Alpukat")
+                {
+                    stokAlpukat = stok;
+                    lblHargaAlpukat.Text = FormatRupiah(harga);
+                    lblStokAlpukat.Text = "Stok: " + stok;
+                }
+                else if (nama == "Bibit Rambutan")
+                {
+                    stokRambutan = stok;
+                    lblHargaRambutan.Text = FormatRupiah(harga);
+                    lblStokRambutan.Text = "Stok: " + stok;
+                }
+            }
         }
 
         private void UpdateStatistik()
@@ -52,20 +103,13 @@ namespace ProjectFajriGans.UserControls
             if (stokRambutan > 0) totalBibit++;
 
             lblTotalBibit.Text = totalBibit.ToString();
-            lblDipilih.Text = dipilih.ToString();
             lblStokTersedia.Text = stokTersedia.ToString();
-
-            lblStokMangga.Text = "Stok: " + stokMangga;
-            lblStokCabai.Text = "Stok: " + stokCabai;
-            lblStokJambu.Text = "Stok: " + stokJambu;
-            lblStokJeruk.Text = "Stok: " + stokJeruk;
-            lblStokAlpukat.Text = "Stok: " + stokAlpukat;
-            lblStokRambutan.Text = "Stok: " + stokRambutan;
+            lblDipilih.Text = dipilih.ToString();
         }
 
         public void SelesaiPembayaran()
         {
-            AmbilStokDariDatabase();
+            AmbilProdukDariDatabase();
 
             lblJumlah.Text = "0";
             lblJumlahCabai.Text = "0";
@@ -77,10 +121,10 @@ namespace ProjectFajriGans.UserControls
             UpdateStatistik();
         }
 
-        private void TambahJumlah(Label label, int stokAsli)
+        private void TambahJumlah(Label label, int stok)
         {
             int jumlah = int.Parse(label.Text);
-            if (jumlah >= stokAsli) return;
+            if (jumlah >= stok) return;
 
             label.Text = (jumlah + 1).ToString();
             UpdateStatistik();
@@ -114,6 +158,28 @@ namespace ProjectFajriGans.UserControls
         private void btnMinusRambutan_Click(object sender, EventArgs e) => KurangJumlah(lblJumlahRambutan);
 
         private void MenuCheckout_Click(object sender, EventArgs e) => PindahKeCheckout();
+
+        private void btnRiwayat_Click(object sender, EventArgs e)
+        {
+            PindahKeRiwayat();
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void txtCariBibit_TextChanged(object sender, EventArgs e)
+        {
+            string cari = txtCariBibit.Text.Trim().ToLower();
+
+            lblNamaMangga.BackColor = cari != "" && "bibit mangga".Contains(cari) ? Color.LightGreen : Color.Transparent;
+            lblNamaCabai.BackColor = cari != "" && "bibit cabai".Contains(cari) ? Color.LightGreen : Color.Transparent;
+            lblNamaJambu.BackColor = cari != "" && "bibit jambu".Contains(cari) ? Color.LightGreen : Color.Transparent;
+            lblNamaJeruk.BackColor = cari != "" && "bibit jeruk".Contains(cari) ? Color.LightGreen : Color.Transparent;
+            lblNamaAlpukat.BackColor = cari != "" && "bibit alpukat".Contains(cari) ? Color.LightGreen : Color.Transparent;
+            lblNamaRambutan.BackColor = cari != "" && "bibit rambutan".Contains(cari) ? Color.LightGreen : Color.Transparent;
+        }
 
         private void picCart_Load(object sender, EventArgs e) { }
         private void lblInitial_Click(object sender, EventArgs e) { }

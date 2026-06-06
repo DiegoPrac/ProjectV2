@@ -21,10 +21,6 @@ namespace ProjectFajriGans.UserControls
             }
         }
 
-        private void pnlBackground_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
         private void UCLogin_Resize(object sender, EventArgs e)
         {
             pnlLoginForm.Location = new Point(
@@ -49,13 +45,23 @@ namespace ProjectFajriGans.UserControls
 
             if (loginBerhasil)
             {
-                MessageBox.Show("Login berhasil!", "Informasi",
+                string role = UserController.GetRole(txtUsername.Text);
+
+                MessageBox.Show("Login berhasil sebagai " + role, "Informasi",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 FormMain? main = this.FindForm() as FormMain;
+
                 if (main != null)
                 {
-                    main.LoadDashboard();
+                    if (role == "karyawan")
+                    {
+                        main.LoadDashboardKaryawan();
+                    }
+                    else
+                    {
+                        main.LoadDashboard();
+                    }
                 }
             }
             else
@@ -64,5 +70,7 @@ namespace ProjectFajriGans.UserControls
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void pnlBackground_Paint(object sender, PaintEventArgs e) { }
     }
 }

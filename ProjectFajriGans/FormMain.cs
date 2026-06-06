@@ -34,9 +34,16 @@ namespace ProjectFajriGans
             {
                 dashboard = new UCDashboard();
                 dashboard.PindahKeCheckout += LoadCheckout;
+                dashboard.PindahKeRiwayat += LoadRiwayat;
             }
 
             LoadPage(dashboard);
+        }
+
+        public void LoadDashboardKaryawan()
+        {
+            UCDashboardKaryawan dashboardKaryawan = new UCDashboardKaryawan();
+            LoadPage(dashboardKaryawan);
         }
 
         public void LoadCheckout()
@@ -57,6 +64,7 @@ namespace ProjectFajriGans
             );
 
             checkout.PindahKeDashboard += LoadDashboard;
+            checkout.PindahKeRiwayat += LoadRiwayat;
 
             checkout.PembayaranBerhasil += () =>
             {
@@ -64,6 +72,16 @@ namespace ProjectFajriGans
             };
 
             LoadPage(checkout);
+        }
+
+        public void LoadRiwayat()
+        {
+            UCRiwayat riwayat = new UCRiwayat();
+
+            riwayat.PindahKeDashboard += LoadDashboard;
+            riwayat.PindahKeCheckout += LoadCheckout;
+
+            LoadPage(riwayat);
         }
     }
 }
