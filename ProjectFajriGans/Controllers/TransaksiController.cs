@@ -1,42 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
 using Npgsql;
-using ProjectFajriGans.Database;
+using MyBibit.Database;
 
-namespace ProjectFajriGans.Controllers
+namespace MyBibit.Controllers
 {
     public class TransaksiController
     {
-        public static bool SimpanTransaksi(
-            int mangga, int cabai, int jambu,
-            int jeruk, int alpukat, int rambutan)
+        public static bool SimpanTransaksi(Dictionary<int, int> keranjang)
         {
             try
             {
                 using (NpgsqlConnection conn = DbConnection.GetConnection())
                 {
                     conn.Open();
-
                     using (var trx = conn.BeginTransaction())
                     {
                         string orderQuery = @"
-                            INSERT INTO orders (tanggal, status, username)
-                            VALUES (CURRENT_DATE, TRUE, 'customer')
-                            RETURNING id";
+                            INSERT INTO orders (tanggal, status, id_users)
+                            SELECT CURRENT_DATE, FALSE, id_users
+                            FROM users
+                            WHERE username = @username
+                            RETURNING id_order";
 
                         int idOrder;
 
                         using (NpgsqlCommand cmd = new NpgsqlCommand(orderQuery, conn))
                         {
                             cmd.Transaction = trx;
+                            cmd.Parameters.AddWithValue("@username", Session.Username);
                             idOrder = Convert.ToInt32(cmd.ExecuteScalar());
                         }
 
-                        SimpanDetail(conn, trx, idOrder, 1, 15000, mangga);
-                        SimpanDetail(conn, trx, idOrder, 2, 8000, cabai);
-                        SimpanDetail(conn, trx, idOrder, 3, 12000, jambu);
-                        SimpanDetail(conn, trx, idOrder, 4, 10000, jeruk);
-                        SimpanDetail(conn, trx, idOrder, 5, 20000, alpukat);
-                        SimpanDetail(conn, trx, idOrder, 6, 13000, rambutan);
+                        foreach (var item in keranjang)
+                            SimpanDetail(conn, trx, idOrder, item.Key, item.Value);
 
                         trx.Commit();
                     }
@@ -50,20 +47,21 @@ namespace ProjectFajriGans.Controllers
             }
         }
 
-        private static void SimpanDetail(NpgsqlConnection conn, NpgsqlTransaction trx, int idOrder, int idProduk, int harga, int qty)
+        private static void SimpanDetail(NpgsqlConnection conn, NpgsqlTransaction trx, int idOrder, int idProduk, int qty)
         {
             if (qty <= 0) return;
 
             string query = @"
-                INSERT INTO detail_order (id_order, id_produk, harga, kuantitas)
-                VALUES (@id_order, @id_produk, @harga, @kuantitas)";
+                INSERT INTO detail_order (id_order, id_produk, harga, kuantitas, subtotal)
+                SELECT @id_order, id_produk, harga, @kuantitas, harga * @kuantitas
+                FROM produk
+                WHERE id_produk = @id_produk";
 
             using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
             {
                 cmd.Transaction = trx;
                 cmd.Parameters.AddWithValue("@id_order", idOrder);
                 cmd.Parameters.AddWithValue("@id_produk", idProduk);
-                cmd.Parameters.AddWithValue("@harga", harga);
                 cmd.Parameters.AddWithValue("@kuantitas", qty);
                 cmd.ExecuteNonQuery();
             }

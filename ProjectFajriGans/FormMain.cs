@@ -1,9 +1,10 @@
 using System;
 using System.Windows.Forms;
-using ProjectFajriGans.UserControls;
-using ProjectFajriGans.Database;
+using MyBibit.UserControls;
+using MyBibit.Database;
+using System.Collections.Generic;
 
-namespace ProjectFajriGans
+namespace MyBibit
 {
     public partial class FormMain : Form
     {
@@ -30,12 +31,9 @@ namespace ProjectFajriGans
 
         public void LoadDashboard()
         {
-            if (dashboard == null)
-            {
-                dashboard = new UCDashboard();
-                dashboard.PindahKeCheckout += LoadCheckout;
-                dashboard.PindahKeRiwayat += LoadRiwayat;
-            }
+            dashboard = new UCDashboard();
+            dashboard.PindahKeCheckout += LoadCheckout;
+            dashboard.PindahKeRiwayat += LoadRiwayat;
 
             LoadPage(dashboard);
         }
@@ -46,6 +44,24 @@ namespace ProjectFajriGans
             LoadPage(dashboardKaryawan);
         }
 
+        public void LoadDashboardAdmin()
+        {
+            UCAdminDashboard admin = new UCAdminDashboard();
+            LoadPage(admin);
+        }
+
+        public void LoadOrderDetailKaryawan()
+        {
+            UCOrderDetailKaryawan orderDetail = new UCOrderDetailKaryawan();
+            LoadPage(orderDetail);
+        }
+
+        public void LoadLogin()
+        {
+            dashboard = null;
+            LoadPage(new UCLogin());
+        }
+
         public void LoadCheckout()
         {
             if (dashboard == null)
@@ -54,18 +70,10 @@ namespace ProjectFajriGans
                 return;
             }
 
-            UCCheckout checkout = new UCCheckout(
-                dashboard.JumlahMangga,
-                dashboard.JumlahCabai,
-                dashboard.JumlahJambu,
-                dashboard.JumlahJeruk,
-                dashboard.JumlahAlpukat,
-                dashboard.JumlahRambutan
-            );
+            UCCheckout checkout = new UCCheckout(dashboard.Keranjang);
 
             checkout.PindahKeDashboard += LoadDashboard;
             checkout.PindahKeRiwayat += LoadRiwayat;
-
             checkout.PembayaranBerhasil += () =>
             {
                 dashboard.SelesaiPembayaran();
@@ -77,10 +85,8 @@ namespace ProjectFajriGans
         public void LoadRiwayat()
         {
             UCRiwayat riwayat = new UCRiwayat();
-
             riwayat.PindahKeDashboard += LoadDashboard;
             riwayat.PindahKeCheckout += LoadCheckout;
-
             LoadPage(riwayat);
         }
     }

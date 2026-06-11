@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using ProjectFajriGans;
-using ProjectFajriGans.Models;
-using ProjectFajriGans.Controllers;
+using MyBibit;
+using MyBibit.Models;
+using MyBibit.Controllers;
 
-namespace ProjectFajriGans.UserControls
+namespace MyBibit.UserControls
 {
     public partial class UCRegister : UserControl
     {
@@ -40,6 +40,13 @@ namespace ProjectFajriGans.UserControls
                 txtNoTelepon.Text == "")
             {
                 MessageBox.Show("Semua data harus diisi!", "Peringatan",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (UserController.UsernameSudahAda(txtUsername.Text))
+            {
+                MessageBox.Show("Username sudah digunakan!", "Peringatan",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }

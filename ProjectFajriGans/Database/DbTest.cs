@@ -1,6 +1,6 @@
 ﻿using Npgsql;
 
-namespace ProjectFajriGans.Database
+namespace MyBibit.Database
 {
     public class DbTest
     {

@@ -1,4 +1,4 @@
-﻿namespace ProjectFajriGans.UserControls
+﻿namespace MyBibit.UserControls
 {
     partial class UCLogin
     {

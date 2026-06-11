@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ProjectFajriGans.Properties {
+namespace MyBibit.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ProjectFajriGans.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ProjectFajriGans.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyBibit.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -246,6 +246,16 @@ namespace ProjectFajriGans.Properties {
         internal static System.Drawing.Bitmap Object__2_ {
             get {
                 object obj = ResourceManager.GetObject("Object (2)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap out__1_ {
+            get {
+                object obj = ResourceManager.GetObject("out (1)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

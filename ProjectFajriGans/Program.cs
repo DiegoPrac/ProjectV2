@@ -1,4 +1,4 @@
-namespace ProjectFajriGans
+namespace MyBibit
 {
     internal static class Program
     {

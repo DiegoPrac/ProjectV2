@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using ProjectFajriGans.Controllers;
+using MyBibit.Controllers;
 
-namespace ProjectFajriGans.UserControls
+namespace MyBibit.UserControls
 {
     public partial class UCLogin : UserControl
     {
@@ -14,11 +14,9 @@ namespace ProjectFajriGans.UserControls
 
         private void linkRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            FormMain? main = this.FindForm() as FormMain;
+            FormMain main = this.FindForm() as FormMain;
             if (main != null)
-            {
                 main.LoadPage(new UCRegister());
-            }
         }
 
         private void UCLogin_Resize(object sender, EventArgs e)
@@ -31,44 +29,37 @@ namespace ProjectFajriGans.UserControls
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if (txtUsername.Text == "" || txtPassword.Text == "")
+            string username = txtUsername.Text.Trim();
+            string password = txtPassword.Text.Trim();
+
+            if (username == "" || password == "")
             {
-                MessageBox.Show("Username dan password harus diisi!", "Peringatan",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Username dan password harus diisi!");
                 return;
             }
 
-            bool loginBerhasil = UserController.Login(
-                txtUsername.Text,
-                txtPassword.Text
-            );
+            bool loginBerhasil = UserController.Login(username, password);
 
-            if (loginBerhasil)
+            if (!loginBerhasil)
             {
-                string role = UserController.GetRole(txtUsername.Text);
-
-                MessageBox.Show("Login berhasil sebagai " + role, "Informasi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                FormMain? main = this.FindForm() as FormMain;
-
-                if (main != null)
-                {
-                    if (role == "karyawan")
-                    {
-                        main.LoadDashboardKaryawan();
-                    }
-                    else
-                    {
-                        main.LoadDashboard();
-                    }
-                }
+                MessageBox.Show("Username atau password salah / akun nonaktif!");
+                return;
             }
+
+            string role = UserController.GetRole(username).Trim().ToLower();
+
+            Session.Username = username;
+            Session.Role = role;
+
+            FormMain main = this.FindForm() as FormMain;
+            if (main == null) return;
+
+            if (role == "admin")
+                main.LoadDashboardAdmin();
+            else if (role == "karyawan")
+                main.LoadDashboardKaryawan();
             else
-            {
-                MessageBox.Show("Username atau password salah!", "Login gagal",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                main.LoadDashboard();
         }
 
         private void pnlBackground_Paint(object sender, PaintEventArgs e) { }

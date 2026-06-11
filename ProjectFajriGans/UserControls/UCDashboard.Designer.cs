@@ -1,4 +1,4 @@
-﻿namespace ProjectFajriGans.UserControls
+﻿namespace MyBibit.UserControls
 {
     partial class UCDashboard
     {
@@ -106,6 +106,10 @@
             lblNamaRambutan = new Label();
             lblStokRambutan = new Label();
             pictureBox3 = new PictureBox();
+            pnlContent = new Panel();
+            btnSemua = new Button();
+            btnBuah = new Button();
+            btnSayur = new Button();
             pnlSidebar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picCheckout).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picDashboard).BeginInit();
@@ -130,6 +134,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             pnlBibitRambutan.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            pnlContent.SuspendLayout();
             SuspendLayout();
             // 
             // pnlSidebar
@@ -247,6 +252,7 @@
             btnLogout.Text = "Logout";
             btnLogout.TextAlign = ContentAlignment.MiddleLeft;
             btnLogout.UseVisualStyleBackColor = false;
+            btnLogout.Click += btnLogout_Click;
             // 
             // btnRiwayat
             // 
@@ -511,7 +517,7 @@
             pnlBibitMangga.Controls.Add(lblNamaMangga);
             pnlBibitMangga.Controls.Add(lblStokMangga);
             pnlBibitMangga.Controls.Add(picMangga);
-            pnlBibitMangga.Location = new Point(260, 330);
+            pnlBibitMangga.Location = new Point(40, 4);
             pnlBibitMangga.Name = "pnlBibitMangga";
             pnlBibitMangga.Size = new Size(300, 320);
             pnlBibitMangga.TabIndex = 12;
@@ -616,7 +622,7 @@
             pnlBibitCabai.Controls.Add(lblNamaCabai);
             pnlBibitCabai.Controls.Add(lblStokCabai);
             pnlBibitCabai.Controls.Add(picCabai);
-            pnlBibitCabai.Location = new Point(590, 330);
+            pnlBibitCabai.Location = new Point(370, 3);
             pnlBibitCabai.Name = "pnlBibitCabai";
             pnlBibitCabai.Size = new Size(300, 320);
             pnlBibitCabai.TabIndex = 13;
@@ -721,7 +727,7 @@
             pnlBibitJambu.Controls.Add(lblNamaJambu);
             pnlBibitJambu.Controls.Add(lblStokJambu);
             pnlBibitJambu.Controls.Add(picJambu);
-            pnlBibitJambu.Location = new Point(920, 330);
+            pnlBibitJambu.Location = new Point(700, 3);
             pnlBibitJambu.Name = "pnlBibitJambu";
             pnlBibitJambu.Size = new Size(300, 320);
             pnlBibitJambu.TabIndex = 14;
@@ -826,7 +832,7 @@
             pnlBibitJeruk.Controls.Add(lblNamaJeruk);
             pnlBibitJeruk.Controls.Add(lblStokJeruk);
             pnlBibitJeruk.Controls.Add(pictureBox1);
-            pnlBibitJeruk.Location = new Point(260, 685);
+            pnlBibitJeruk.Location = new Point(41, 354);
             pnlBibitJeruk.Name = "pnlBibitJeruk";
             pnlBibitJeruk.Size = new Size(300, 320);
             pnlBibitJeruk.TabIndex = 13;
@@ -932,7 +938,7 @@
             pnlBibitAlpukat.Controls.Add(lblNamaAlpukat);
             pnlBibitAlpukat.Controls.Add(lblStokAlpukat);
             pnlBibitAlpukat.Controls.Add(pictureBox2);
-            pnlBibitAlpukat.Location = new Point(590, 685);
+            pnlBibitAlpukat.Location = new Point(371, 354);
             pnlBibitAlpukat.Name = "pnlBibitAlpukat";
             pnlBibitAlpukat.Size = new Size(300, 320);
             pnlBibitAlpukat.TabIndex = 13;
@@ -1037,7 +1043,7 @@
             pnlBibitRambutan.Controls.Add(lblNamaRambutan);
             pnlBibitRambutan.Controls.Add(lblStokRambutan);
             pnlBibitRambutan.Controls.Add(pictureBox3);
-            pnlBibitRambutan.Location = new Point(920, 685);
+            pnlBibitRambutan.Location = new Point(701, 354);
             pnlBibitRambutan.Name = "pnlBibitRambutan";
             pnlBibitRambutan.Size = new Size(300, 320);
             pnlBibitRambutan.TabIndex = 13;
@@ -1132,16 +1138,65 @@
             pictureBox3.TabStop = false;
             pictureBox3.Click += pictureBox3_Click;
             // 
+            // pnlContent
+            // 
+            pnlContent.AutoScroll = true;
+            pnlContent.BackColor = Color.Transparent;
+            pnlContent.BorderStyle = BorderStyle.FixedSingle;
+            pnlContent.Controls.Add(pnlBibitRambutan);
+            pnlContent.Controls.Add(pnlBibitJambu);
+            pnlContent.Controls.Add(pnlBibitAlpukat);
+            pnlContent.Controls.Add(pnlBibitCabai);
+            pnlContent.Controls.Add(pnlBibitJeruk);
+            pnlContent.Controls.Add(pnlBibitMangga);
+            pnlContent.Location = new Point(239, 330);
+            pnlContent.Name = "pnlContent";
+            pnlContent.Size = new Size(1124, 770);
+            pnlContent.TabIndex = 30;
+            // 
+            // btnSemua
+            // 
+            btnSemua.BackColor = Color.FromArgb(235, 245, 235);
+            btnSemua.FlatStyle = FlatStyle.Flat;
+            btnSemua.ForeColor = Color.FromArgb(22, 101, 52);
+            btnSemua.Location = new Point(461, 279);
+            btnSemua.Name = "btnSemua";
+            btnSemua.Size = new Size(112, 34);
+            btnSemua.TabIndex = 31;
+            btnSemua.Text = "Semua";
+            btnSemua.UseVisualStyleBackColor = false;
+            // 
+            // btnBuah
+            // 
+            btnBuah.BackColor = Color.FromArgb(235, 245, 235);
+            btnBuah.FlatStyle = FlatStyle.Flat;
+            btnBuah.ForeColor = Color.FromArgb(22, 101, 52);
+            btnBuah.Location = new Point(610, 279);
+            btnBuah.Name = "btnBuah";
+            btnBuah.Size = new Size(112, 34);
+            btnBuah.TabIndex = 32;
+            btnBuah.Text = "Buah";
+            btnBuah.UseVisualStyleBackColor = false;
+            // 
+            // btnSayur
+            // 
+            btnSayur.BackColor = Color.FromArgb(235, 245, 235);
+            btnSayur.FlatStyle = FlatStyle.Flat;
+            btnSayur.ForeColor = Color.FromArgb(22, 101, 52);
+            btnSayur.Location = new Point(754, 279);
+            btnSayur.Name = "btnSayur";
+            btnSayur.Size = new Size(112, 34);
+            btnSayur.TabIndex = 33;
+            btnSayur.Text = "Sayur";
+            btnSayur.UseVisualStyleBackColor = false;
+            // 
             // UCDashboard
             // 
             AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.White;
-            Controls.Add(pnlBibitRambutan);
-            Controls.Add(pnlBibitAlpukat);
-            Controls.Add(pnlBibitJeruk);
-            Controls.Add(pnlBibitJambu);
-            Controls.Add(pnlBibitCabai);
-            Controls.Add(pnlBibitMangga);
+            Controls.Add(btnSayur);
+            Controls.Add(btnBuah);
+            Controls.Add(btnSemua);
             Controls.Add(lblJumlahBibit);
             Controls.Add(lblDaftarBibit);
             Controls.Add(pnlDipilih);
@@ -1152,6 +1207,7 @@
             Controls.Add(lblWelcome);
             Controls.Add(lblTanggal);
             Controls.Add(pnlSidebar);
+            Controls.Add(pnlContent);
             Name = "UCDashboard";
             Size = new Size(1366, 1100);
             Load += picCart_Load;
@@ -1192,8 +1248,10 @@
             pnlBibitRambutan.ResumeLayout(false);
             pnlBibitRambutan.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            pnlContent.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
+
         }
 
 
@@ -1277,5 +1335,27 @@
         private Button btnMinusAlpukat;
         private Button btnCheckout;
         private PictureBox picCheckout;
+        private Panel pnlContent;
+        private void btnPlus_Click(object sender, EventArgs e) { }
+        private void btnMinus_Click(object sender, EventArgs e) { }
+
+        private void btnPlusCabai_Click(object sender, EventArgs e) { }
+        private void btnMinusCabai_Click(object sender, EventArgs e) { }
+
+        private void btnPlusJambu_Click(object sender, EventArgs e) { }
+        private void btnMinusJambu_Click(object sender, EventArgs e) { }
+
+        private void btnPlusJeruk_Click(object sender, EventArgs e) { }
+        private void btnMinusJeruk_Click(object sender, EventArgs e) { }
+
+        private void btnPlusAlpukat_Click(object sender, EventArgs e) { }
+        private void btnMinusAlpukat_Click(object sender, EventArgs e) { }
+
+        private void btnPlusRambutan_Click(object sender, EventArgs e) { }
+        private void btnMinusRambutan_Click(object sender, EventArgs e) { }
+
+        private Button btnSemua;
+        private Button btnBuah;
+        private Button btnSayur;
     }
 }

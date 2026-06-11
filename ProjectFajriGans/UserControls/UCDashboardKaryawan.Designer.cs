@@ -1,4 +1,4 @@
-﻿namespace ProjectFajriGans.UserControls
+﻿namespace MyBibit.UserControls
 {
     partial class UCDashboardKaryawan
     {
@@ -98,6 +98,27 @@
             lblStokTitle = new Label();
             pnlStok = new Panel();
             lblDaftarBibit = new Label();
+            btnTambahProduk = new Button();
+            pnlPopupProduk = new Panel();
+            dtpExpired = new DateTimePicker();
+            lblExpired = new Label();
+            cmbKategori = new ComboBox();
+            lblKategori = new Label();
+            labelStokProduk = new Label();
+            LabelHargaProduk = new Label();
+            LabelNamaProduk = new Label();
+            btnSimpanProduk = new Button();
+            btnBatalProduk = new Button();
+            txtStokProduk = new TextBox();
+            txtHargaProduk = new TextBox();
+            txtNamaProduk = new TextBox();
+            btnPilihFoto = new Button();
+            picProduk = new PictureBox();
+            pnlOverlay = new Panel();
+            btnSayur = new Button();
+            btnBuah = new Button();
+            btnSemua = new Button();
+            pnlDaftarProduk = new Panel();
             pnlBibitJeruk.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picJeruk).BeginInit();
             pnlBibitJambu.SuspendLayout();
@@ -121,6 +142,9 @@
             pnlTotalBibit.SuspendLayout();
             pnlDipilih.SuspendLayout();
             pnlStok.SuspendLayout();
+            pnlPopupProduk.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picProduk).BeginInit();
+            pnlOverlay.SuspendLayout();
             SuspendLayout();
             // 
             // pnlBibitJeruk
@@ -137,6 +161,7 @@
             pnlBibitJeruk.Name = "pnlBibitJeruk";
             pnlBibitJeruk.Size = new Size(300, 320);
             pnlBibitJeruk.TabIndex = 26;
+            pnlBibitJeruk.Visible = false;
             // 
             // btnEditJeruk
             // 
@@ -229,6 +254,7 @@
             pnlBibitJambu.Name = "pnlBibitJambu";
             pnlBibitJambu.Size = new Size(300, 320);
             pnlBibitJambu.TabIndex = 30;
+            pnlBibitJambu.Visible = false;
             // 
             // btnEditJambu
             // 
@@ -442,6 +468,7 @@
             pnlBibitAlpukat.Name = "pnlBibitAlpukat";
             pnlBibitAlpukat.Size = new Size(300, 320);
             pnlBibitAlpukat.TabIndex = 27;
+            pnlBibitAlpukat.Visible = false;
             // 
             // btnEditAlpukat
             // 
@@ -490,6 +517,7 @@
             pnlBibitRambutan.Name = "pnlBibitRambutan";
             pnlBibitRambutan.Size = new Size(300, 320);
             pnlBibitRambutan.TabIndex = 28;
+            pnlBibitRambutan.Visible = false;
             // 
             // btnEditRambutan
             // 
@@ -549,6 +577,7 @@
             pnlBibitCabai.Name = "pnlBibitCabai";
             pnlBibitCabai.Size = new Size(300, 320);
             pnlBibitCabai.TabIndex = 29;
+            pnlBibitCabai.Visible = false;
             // 
             // btnEditCabai
             // 
@@ -613,7 +642,7 @@
             // picRiwayat
             // 
             picRiwayat.BackColor = Color.Transparent;
-            picRiwayat.BackgroundImage = Properties.Resources.riwayas;
+            picRiwayat.BackgroundImage = Properties.Resources.out__1_;
             picRiwayat.BackgroundImageLayout = ImageLayout.Zoom;
             picRiwayat.Location = new Point(11, 283);
             picRiwayat.Name = "picRiwayat";
@@ -637,6 +666,7 @@
             btnOrderDetail.Text = "Order Detail";
             btnOrderDetail.TextAlign = ContentAlignment.MiddleLeft;
             btnOrderDetail.UseVisualStyleBackColor = false;
+            btnOrderDetail.Click += btnOrderDetail_Click;
             // 
             // txtCariBibit
             // 
@@ -666,7 +696,7 @@
             pnlSearch.BorderStyle = BorderStyle.FixedSingle;
             pnlSearch.Controls.Add(txtCariBibit);
             pnlSearch.Controls.Add(picSearch);
-            pnlSearch.Location = new Point(1028, 40);
+            pnlSearch.Location = new Point(1662, 40);
             pnlSearch.Name = "pnlSearch";
             pnlSearch.Size = new Size(250, 40);
             pnlSearch.TabIndex = 18;
@@ -721,7 +751,7 @@
             pnlAvatar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pnlAvatar.BackColor = Color.FromArgb(22, 101, 52);
             pnlAvatar.Controls.Add(lblInitial);
-            pnlAvatar.Location = new Point(1295, 40);
+            pnlAvatar.Location = new Point(1929, 40);
             pnlAvatar.Name = "pnlAvatar";
             pnlAvatar.Size = new Size(40, 40);
             pnlAvatar.TabIndex = 19;
@@ -765,7 +795,7 @@
             pnlSidebar.Dock = DockStyle.Left;
             pnlSidebar.Location = new Point(0, 0);
             pnlSidebar.Name = "pnlSidebar";
-            pnlSidebar.Size = new Size(220, 1100);
+            pnlSidebar.Size = new Size(220, 1500);
             pnlSidebar.TabIndex = 15;
             // 
             // picLogout
@@ -774,7 +804,7 @@
             picLogout.BackColor = Color.Transparent;
             picLogout.BackgroundImage = Properties.Resources._out;
             picLogout.BackgroundImageLayout = ImageLayout.Zoom;
-            picLogout.Location = new Point(11, 1025);
+            picLogout.Location = new Point(11, 1425);
             picLogout.Name = "picLogout";
             picLogout.Size = new Size(20, 20);
             picLogout.TabIndex = 10;
@@ -789,7 +819,7 @@
             btnLogout.FlatStyle = FlatStyle.Flat;
             btnLogout.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnLogout.ForeColor = Color.White;
-            btnLogout.Location = new Point(24, 1012);
+            btnLogout.Location = new Point(24, 1412);
             btnLogout.Name = "btnLogout";
             btnLogout.Padding = new Padding(15, 0, 0, 0);
             btnLogout.Size = new Size(180, 40);
@@ -797,6 +827,7 @@
             btnLogout.Text = "Logout";
             btnLogout.TextAlign = ContentAlignment.MiddleLeft;
             btnLogout.UseVisualStyleBackColor = false;
+            btnLogout.Click += btnLogout_Click;
             // 
             // lblHargaMangga
             // 
@@ -856,6 +887,7 @@
             pnlBibitMangga.Name = "pnlBibitMangga";
             pnlBibitMangga.Size = new Size(300, 320);
             pnlBibitMangga.TabIndex = 25;
+            pnlBibitMangga.Visible = false;
             // 
             // btnEditMangga
             // 
@@ -896,7 +928,7 @@
             lblJumlahBibit.AutoSize = true;
             lblJumlahBibit.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblJumlahBibit.ForeColor = Color.Gray;
-            lblJumlahBibit.Location = new Point(1175, 281);
+            lblJumlahBibit.Location = new Point(1809, 281);
             lblJumlahBibit.Name = "lblJumlahBibit";
             lblJumlahBibit.Size = new Size(167, 28);
             lblJumlahBibit.TabIndex = 24;
@@ -1009,10 +1041,243 @@
             lblDaftarBibit.TabIndex = 23;
             lblDaftarBibit.Text = "Daftar Bibit";
             // 
+            // btnTambahProduk
+            // 
+            btnTambahProduk.Anchor = AnchorStyles.Bottom;
+            btnTambahProduk.BackColor = Color.Green;
+            btnTambahProduk.FlatStyle = FlatStyle.Flat;
+            btnTambahProduk.ForeColor = Color.White;
+            btnTambahProduk.Location = new Point(1052, 1451);
+            btnTambahProduk.Name = "btnTambahProduk";
+            btnTambahProduk.Size = new Size(55, 35);
+            btnTambahProduk.TabIndex = 31;
+            btnTambahProduk.Text = "+";
+            btnTambahProduk.UseVisualStyleBackColor = false;
+            btnTambahProduk.Click += btnTambahProduk_Click;
+            // 
+            // pnlPopupProduk
+            // 
+            pnlPopupProduk.BackColor = Color.White;
+            pnlPopupProduk.BorderStyle = BorderStyle.FixedSingle;
+            pnlPopupProduk.Controls.Add(dtpExpired);
+            pnlPopupProduk.Controls.Add(lblExpired);
+            pnlPopupProduk.Controls.Add(cmbKategori);
+            pnlPopupProduk.Controls.Add(lblKategori);
+            pnlPopupProduk.Controls.Add(labelStokProduk);
+            pnlPopupProduk.Controls.Add(LabelHargaProduk);
+            pnlPopupProduk.Controls.Add(LabelNamaProduk);
+            pnlPopupProduk.Controls.Add(btnSimpanProduk);
+            pnlPopupProduk.Controls.Add(btnBatalProduk);
+            pnlPopupProduk.Controls.Add(txtStokProduk);
+            pnlPopupProduk.Controls.Add(txtHargaProduk);
+            pnlPopupProduk.Controls.Add(txtNamaProduk);
+            pnlPopupProduk.Controls.Add(btnPilihFoto);
+            pnlPopupProduk.Controls.Add(picProduk);
+            pnlPopupProduk.Location = new Point(1302, 321);
+            pnlPopupProduk.Name = "pnlPopupProduk";
+            pnlPopupProduk.Size = new Size(450, 650);
+            pnlPopupProduk.TabIndex = 32;
+            pnlPopupProduk.Visible = false;
+            // 
+            // dtpExpired
+            // 
+            dtpExpired.Location = new Point(74, 560);
+            dtpExpired.Name = "dtpExpired";
+            dtpExpired.Size = new Size(148, 31);
+            dtpExpired.TabIndex = 13;
+            // 
+            // lblExpired
+            // 
+            lblExpired.AutoSize = true;
+            lblExpired.ForeColor = Color.DarkGreen;
+            lblExpired.Location = new Point(74, 529);
+            lblExpired.Name = "lblExpired";
+            lblExpired.Size = new Size(136, 25);
+            lblExpired.TabIndex = 12;
+            lblExpired.Text = "Tanggal Expired";
+            // 
+            // cmbKategori
+            // 
+            cmbKategori.FormattingEnabled = true;
+            cmbKategori.Items.AddRange(new object[] { "Buah", "Sayur" });
+            cmbKategori.Location = new Point(74, 491);
+            cmbKategori.Name = "cmbKategori";
+            cmbKategori.Size = new Size(148, 33);
+            cmbKategori.TabIndex = 11;
+            // 
+            // lblKategori
+            // 
+            lblKategori.AutoSize = true;
+            lblKategori.ForeColor = Color.DarkGreen;
+            lblKategori.Location = new Point(74, 463);
+            lblKategori.Name = "lblKategori";
+            lblKategori.Size = new Size(78, 25);
+            lblKategori.TabIndex = 10;
+            lblKategori.Text = "Kategori";
+            // 
+            // labelStokProduk
+            // 
+            labelStokProduk.AutoSize = true;
+            labelStokProduk.ForeColor = Color.DarkGreen;
+            labelStokProduk.Location = new Point(73, 394);
+            labelStokProduk.Name = "labelStokProduk";
+            labelStokProduk.Size = new Size(47, 25);
+            labelStokProduk.TabIndex = 9;
+            labelStokProduk.Text = "Stok";
+            // 
+            // LabelHargaProduk
+            // 
+            LabelHargaProduk.AutoSize = true;
+            LabelHargaProduk.ForeColor = Color.DarkGreen;
+            LabelHargaProduk.Location = new Point(73, 320);
+            LabelHargaProduk.Name = "LabelHargaProduk";
+            LabelHargaProduk.Size = new Size(60, 25);
+            LabelHargaProduk.TabIndex = 8;
+            LabelHargaProduk.Text = "Harga";
+            // 
+            // LabelNamaProduk
+            // 
+            LabelNamaProduk.AutoSize = true;
+            LabelNamaProduk.ForeColor = Color.DarkGreen;
+            LabelNamaProduk.Location = new Point(73, 250);
+            LabelNamaProduk.Name = "LabelNamaProduk";
+            LabelNamaProduk.Size = new Size(59, 25);
+            LabelNamaProduk.TabIndex = 7;
+            LabelNamaProduk.Text = "Nama";
+            // 
+            // btnSimpanProduk
+            // 
+            btnSimpanProduk.BackColor = Color.Green;
+            btnSimpanProduk.ForeColor = Color.White;
+            btnSimpanProduk.Location = new Point(235, 620);
+            btnSimpanProduk.Name = "btnSimpanProduk";
+            btnSimpanProduk.Size = new Size(112, 34);
+            btnSimpanProduk.TabIndex = 6;
+            btnSimpanProduk.Text = "Simpan";
+            btnSimpanProduk.UseVisualStyleBackColor = false;
+            btnSimpanProduk.Click += btnSimpanProduk_Click;
+            // 
+            // btnBatalProduk
+            // 
+            btnBatalProduk.BackColor = Color.Gray;
+            btnBatalProduk.ForeColor = Color.DarkGreen;
+            btnBatalProduk.Location = new Point(74, 620);
+            btnBatalProduk.Name = "btnBatalProduk";
+            btnBatalProduk.Size = new Size(112, 34);
+            btnBatalProduk.TabIndex = 5;
+            btnBatalProduk.Text = "Batal";
+            btnBatalProduk.UseVisualStyleBackColor = false;
+            btnBatalProduk.Click += btnBatalProduk_Click;
+            // 
+            // txtStokProduk
+            // 
+            txtStokProduk.Location = new Point(73, 422);
+            txtStokProduk.Name = "txtStokProduk";
+            txtStokProduk.PlaceholderText = "Masukkan Stok";
+            txtStokProduk.Size = new Size(149, 31);
+            txtStokProduk.TabIndex = 4;
+            // 
+            // txtHargaProduk
+            // 
+            txtHargaProduk.Location = new Point(73, 348);
+            txtHargaProduk.Name = "txtHargaProduk";
+            txtHargaProduk.PlaceholderText = "Masukkan Harga";
+            txtHargaProduk.Size = new Size(149, 31);
+            txtHargaProduk.TabIndex = 3;
+            // 
+            // txtNamaProduk
+            // 
+            txtNamaProduk.Location = new Point(69, 278);
+            txtNamaProduk.Name = "txtNamaProduk";
+            txtNamaProduk.PlaceholderText = "Masukkan Nama";
+            txtNamaProduk.Size = new Size(149, 31);
+            txtNamaProduk.TabIndex = 2;
+            // 
+            // btnPilihFoto
+            // 
+            btnPilihFoto.Location = new Point(155, 100);
+            btnPilihFoto.Name = "btnPilihFoto";
+            btnPilihFoto.Size = new Size(112, 34);
+            btnPilihFoto.TabIndex = 1;
+            btnPilihFoto.Text = "+";
+            btnPilihFoto.UseVisualStyleBackColor = true;
+            btnPilihFoto.Click += btnPilihFoto_Click;
+            // 
+            // picProduk
+            // 
+            picProduk.Location = new Point(67, 14);
+            picProduk.Name = "picProduk";
+            picProduk.Size = new Size(280, 216);
+            picProduk.TabIndex = 0;
+            picProduk.TabStop = false;
+            // 
+            // pnlOverlay
+            // 
+            pnlOverlay.BackColor = Color.FromArgb(120, 0, 0, 0);
+            pnlOverlay.Controls.Add(pnlPopupProduk);
+            pnlOverlay.Dock = DockStyle.Fill;
+            pnlOverlay.Location = new Point(0, 0);
+            pnlOverlay.Name = "pnlOverlay";
+            pnlOverlay.Size = new Size(2000, 1500);
+            pnlOverlay.TabIndex = 33;
+            pnlOverlay.Visible = false;
+            pnlOverlay.Paint += pnlOverlay_Paint;
+            // 
+            // btnSayur
+            // 
+            btnSayur.BackColor = Color.FromArgb(235, 245, 235);
+            btnSayur.FlatStyle = FlatStyle.Flat;
+            btnSayur.ForeColor = Color.FromArgb(22, 101, 52);
+            btnSayur.Location = new Point(788, 282);
+            btnSayur.Name = "btnSayur";
+            btnSayur.Size = new Size(112, 34);
+            btnSayur.TabIndex = 36;
+            btnSayur.Text = "Sayur";
+            btnSayur.UseVisualStyleBackColor = false;
+            // 
+            // btnBuah
+            // 
+            btnBuah.BackColor = Color.FromArgb(235, 245, 235);
+            btnBuah.FlatStyle = FlatStyle.Flat;
+            btnBuah.ForeColor = Color.FromArgb(22, 101, 52);
+            btnBuah.Location = new Point(644, 281);
+            btnBuah.Name = "btnBuah";
+            btnBuah.Size = new Size(112, 34);
+            btnBuah.TabIndex = 35;
+            btnBuah.Text = "Buah";
+            btnBuah.UseVisualStyleBackColor = false;
+            // 
+            // btnSemua
+            // 
+            btnSemua.BackColor = Color.FromArgb(235, 245, 235);
+            btnSemua.FlatStyle = FlatStyle.Flat;
+            btnSemua.ForeColor = Color.FromArgb(22, 101, 52);
+            btnSemua.Location = new Point(495, 281);
+            btnSemua.Name = "btnSemua";
+            btnSemua.Size = new Size(112, 34);
+            btnSemua.TabIndex = 34;
+            btnSemua.Text = "Semua";
+            btnSemua.UseVisualStyleBackColor = false;
+            // 
+            // pnlDaftarProduk
+            // 
+            pnlDaftarProduk.AutoScroll = true;
+            pnlDaftarProduk.BackColor = Color.Transparent;
+            pnlDaftarProduk.BorderStyle = BorderStyle.FixedSingle;
+            pnlDaftarProduk.Location = new Point(255, 330);
+            pnlDaftarProduk.Name = "pnlDaftarProduk";
+            pnlDaftarProduk.Size = new Size(1029, 700);
+            pnlDaftarProduk.TabIndex = 29;
+            // 
             // UCDashboardKaryawan
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
+            Controls.Add(btnTambahProduk);
+            Controls.Add(btnBuah);
+            Controls.Add(btnSemua);
+            Controls.Add(btnSayur);
             Controls.Add(pnlBibitJeruk);
             Controls.Add(pnlBibitJambu);
             Controls.Add(pnlBibitAlpukat);
@@ -1029,8 +1294,10 @@
             Controls.Add(pnlDipilih);
             Controls.Add(pnlStok);
             Controls.Add(lblDaftarBibit);
+            Controls.Add(pnlDaftarProduk);
+            Controls.Add(pnlOverlay);
             Name = "UCDashboardKaryawan";
-            Size = new Size(1366, 1100);
+            Size = new Size(2000, 1500);
             pnlBibitJeruk.ResumeLayout(false);
             pnlBibitJeruk.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picJeruk).EndInit();
@@ -1066,6 +1333,10 @@
             pnlDipilih.PerformLayout();
             pnlStok.ResumeLayout(false);
             pnlStok.PerformLayout();
+            pnlPopupProduk.ResumeLayout(false);
+            pnlPopupProduk.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)picProduk).EndInit();
+            pnlOverlay.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1146,5 +1417,26 @@
 
         private Button btnHapusMangga;
         private Button btnEditMangga;
+        private Button btnTambahProduk;
+        private Panel pnlPopupProduk;
+        private PictureBox picProduk;
+        private Button btnSimpanProduk;
+        private Button btnBatalProduk;
+        private TextBox txtStokProduk;
+        private TextBox txtHargaProduk;
+        private TextBox txtNamaProduk;
+        private Button btnPilihFoto;
+        private Panel pnlOverlay;
+        private Label labelStokProduk;
+        private Label LabelHargaProduk;
+        private Label LabelNamaProduk;
+        private Panel pnlDaftarProduk;
+        private DateTimePicker dtpExpired;
+        private Label lblExpired;
+        private ComboBox cmbKategori;
+        private Label lblKategori;
+        private Button btnSayur;
+        private Button btnBuah;
+        private Button btnSemua;
     }
 }

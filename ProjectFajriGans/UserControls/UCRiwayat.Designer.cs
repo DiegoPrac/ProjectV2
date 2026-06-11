@@ -1,4 +1,4 @@
-﻿namespace ProjectFajriGans.UserControls
+﻿namespace MyBibit.UserControls
 {
     partial class UCRiwayat
     {
@@ -44,9 +44,6 @@
             picLogo = new PictureBox();
             pnlAvatar = new Panel();
             lblInitial = new Label();
-            pnlSearch = new Panel();
-            txtSearch = new TextBox();
-            picSearch = new PictureBox();
             lblWelcome = new Label();
             lblTanggal = new Label();
             dtpAwal = new DateTimePicker();
@@ -72,8 +69,6 @@
             ((System.ComponentModel.ISupportInitialize)picRiwayat).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             pnlAvatar.SuspendLayout();
-            pnlSearch.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)picSearch).BeginInit();
             pnlTotalTransaksi.SuspendLayout();
             pnlTotalPendapatan.SuspendLayout();
             pnlTransaksiSelesai.SuspendLayout();
@@ -296,39 +291,6 @@
             lblInitial.Text = "U";
             lblInitial.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // pnlSearch
-            // 
-            pnlSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            pnlSearch.BackColor = Color.FromArgb(243, 247, 243);
-            pnlSearch.BorderStyle = BorderStyle.FixedSingle;
-            pnlSearch.Controls.Add(txtSearch);
-            pnlSearch.Controls.Add(picSearch);
-            pnlSearch.Location = new Point(1003, 40);
-            pnlSearch.Name = "pnlSearch";
-            pnlSearch.Size = new Size(250, 40);
-            pnlSearch.TabIndex = 12;
-            // 
-            // txtSearch
-            // 
-            txtSearch.BorderStyle = BorderStyle.None;
-            txtSearch.ForeColor = Color.Gray;
-            txtSearch.Location = new Point(33, 6);
-            txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(180, 24);
-            txtSearch.TabIndex = 4;
-            txtSearch.Text = "Cari bibit...";
-            // 
-            // picSearch
-            // 
-            picSearch.BackColor = Color.Transparent;
-            picSearch.BackgroundImage = Properties.Resources.pentung;
-            picSearch.BackgroundImageLayout = ImageLayout.Zoom;
-            picSearch.Location = new Point(7, 11);
-            picSearch.Name = "picSearch";
-            picSearch.Size = new Size(16, 16);
-            picSearch.TabIndex = 4;
-            picSearch.TabStop = false;
-            // 
             // lblWelcome
             // 
             lblWelcome.BackColor = Color.Transparent;
@@ -434,7 +396,7 @@
             lblTitleTotalPengeluaran.Name = "lblTitleTotalPengeluaran";
             lblTitleTotalPengeluaran.Size = new Size(250, 35);
             lblTitleTotalPengeluaran.TabIndex = 2;
-            lblTitleTotalPengeluaran.Text = "Total Peneluaran";
+            lblTitleTotalPengeluaran.Text = "Total Pengeluaran";
             // 
             // pnlTransaksiSelesai
             // 
@@ -512,7 +474,6 @@
             Controls.Add(dtpAkhir);
             Controls.Add(dtpAwal);
             Controls.Add(pnlAvatar);
-            Controls.Add(pnlSearch);
             Controls.Add(lblWelcome);
             Controls.Add(lblTanggal);
             Controls.Add(btnFilter);
@@ -529,9 +490,6 @@
             ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             pnlAvatar.ResumeLayout(false);
             pnlAvatar.PerformLayout();
-            pnlSearch.ResumeLayout(false);
-            pnlSearch.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)picSearch).EndInit();
             pnlTotalTransaksi.ResumeLayout(false);
             pnlTotalPendapatan.ResumeLayout(false);
             pnlTransaksiSelesai.ResumeLayout(false);
@@ -554,9 +512,6 @@
         private PictureBox picLogo;
         private Panel pnlAvatar;
         private Label lblInitial;
-        private Panel pnlSearch;
-        private TextBox txtSearch;
-        private PictureBox picSearch;
         private Label lblWelcome;
         private Label lblTanggal;
         private PictureBox picLogout;

@@ -1,11 +1,15 @@
 ﻿using Npgsql;
 
-namespace ProjectFajriGans.Database
+namespace MyBibit.Database
 {
     public class DbConnection
     {
         private static string connString =
-            "Host=localhost;Port=5432;Username=postgres;Password=Mandigo86;Database=BijiFajri";
+            "Host=localhost;" +
+            "Port=5432;" +
+            "Username=postgres;" +
+            "Password=Mandigo86;" +
+            "Database=BijiFajri";
 
         public static NpgsqlConnection GetConnection()
         {

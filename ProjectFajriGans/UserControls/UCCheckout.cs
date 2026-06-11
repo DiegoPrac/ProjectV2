@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
-using ProjectFajriGans.Controllers;
+using MyBibit.Controllers;
 
-namespace ProjectFajriGans.UserControls
+namespace MyBibit.UserControls
 {
     public partial class UCCheckout : UserControl
     {
@@ -14,32 +15,34 @@ namespace ProjectFajriGans.UserControls
         public event Action PembayaranBerhasil = delegate { };
         public event Action PindahKeRiwayat = delegate { };
 
+        private Dictionary<int, int> keranjang;
         private int totalItem;
         private int totalHarga;
-        private int mangga, cabai, jambu, jeruk, alpukat, rambutan;
 
-        public UCCheckout(int mangga, int cabai, int jambu, int jeruk, int alpukat, int rambutan)
+        public UCCheckout(Dictionary<int, int> keranjang)
         {
             InitializeComponent();
+
+            string namaDepan = Session.Username.Split(' ')[0];
+            lblWelcome.Text = "Selamat Datang, " + namaDepan;
+            lblInitial.Text = namaDepan.Substring(0, 1).ToUpper();
 
             lblTanggal.Text = DateTime.Now.ToString(
                 "dddd, dd MMMM yyyy",
                 new CultureInfo("id-ID")
             );
 
-            this.mangga = mangga;
-            this.cabai = cabai;
-            this.jambu = jambu;
-            this.jeruk = jeruk;
-            this.alpukat = alpukat;
-            this.rambutan = rambutan;
+            this.keranjang = new Dictionary<int, int>(keranjang);
+
+            pnlOverlayQRIS.Visible = false;
+            pnlQRIS.Visible = false;
 
             TampilkanPesanan();
         }
 
         private string FormatRupiah(int angka)
         {
-            return "Rp " + angka.ToString("N0").Replace(",", ".");
+            return "Rp " + angka.ToString("N0", new CultureInfo("id-ID"));
         }
 
         private Image BuatThumbnail(string path)
@@ -62,50 +65,21 @@ namespace ProjectFajriGans.UserControls
             return bmp;
         }
 
-        private string AmbilFotoProduk(DataTable dtProduk, string namaProduk)
+        private DataRow AmbilProduk(DataTable dtProduk, int idProduk)
         {
             foreach (DataRow row in dtProduk.Rows)
             {
-                if (row["nama"].ToString() == namaProduk)
-                {
-                    return row["foto"].ToString();
-                }
+                if (Convert.ToInt32(row["id"]) == idProduk)
+                    return row;
             }
 
-            return "";
-        }
-
-        private void TambahRow(DataTable dt, DataTable dtProduk, string nama, int harga, int qty)
-        {
-            if (qty > 0)
-            {
-                string fotoFile = AmbilFotoProduk(dtProduk, nama);
-                string pathFoto = Path.Combine(Application.StartupPath, "Resources", "Images", fotoFile);
-
-                dt.Rows.Add(
-                    BuatThumbnail(pathFoto),
-                    nama,
-                    FormatRupiah(harga),
-                    qty,
-                    FormatRupiah(harga * qty)
-                );
-            }
+            return null;
         }
 
         private void TampilkanPesanan()
         {
-            totalItem = mangga + cabai + jambu + jeruk + alpukat + rambutan;
-
-            totalHarga =
-                mangga * 15000 +
-                cabai * 8000 +
-                jambu * 12000 +
-                jeruk * 10000 +
-                alpukat * 20000 +
-                rambutan * 13000;
-
-            lblJumlahItem.Text = totalItem + " pot";
-            lblTotalHarga.Text = FormatRupiah(totalHarga);
+            totalItem = 0;
+            totalHarga = 0;
 
             DataTable dtProduk = ProdukController.AmbilSemuaProduk();
 
@@ -116,12 +90,36 @@ namespace ProjectFajriGans.UserControls
             dt.Columns.Add("Qty");
             dt.Columns.Add("Subtotal");
 
-            TambahRow(dt, dtProduk, "Bibit Mangga", 15000, mangga);
-            TambahRow(dt, dtProduk, "Bibit Cabai", 8000, cabai);
-            TambahRow(dt, dtProduk, "Bibit Jambu", 12000, jambu);
-            TambahRow(dt, dtProduk, "Bibit Jeruk", 10000, jeruk);
-            TambahRow(dt, dtProduk, "Bibit Alpukat", 20000, alpukat);
-            TambahRow(dt, dtProduk, "Bibit Rambutan", 13000, rambutan);
+            foreach (var item in keranjang)
+            {
+                int idProduk = item.Key;
+                int qty = item.Value;
+
+                if (qty <= 0) continue;
+
+                DataRow produk = AmbilProduk(dtProduk, idProduk);
+                if (produk == null) continue;
+
+                string nama = produk["nama"].ToString();
+                int harga = Convert.ToInt32(produk["harga"]);
+                string foto = produk["foto"].ToString();
+
+                string pathFoto = Path.Combine(Application.StartupPath, "Images", foto);
+
+                totalItem += qty;
+                totalHarga += harga * qty;
+
+                dt.Rows.Add(
+                    BuatThumbnail(pathFoto),
+                    nama,
+                    FormatRupiah(harga),
+                    qty,
+                    FormatRupiah(harga * qty)
+                );
+            }
+
+            lblJumlahItem.Text = totalItem + " pot";
+            lblTotalHarga.Text = FormatRupiah(totalHarga);
 
             dgvCheckout.Columns.Clear();
             dgvCheckout.AutoGenerateColumns = true;
@@ -130,6 +128,8 @@ namespace ProjectFajriGans.UserControls
             dgvCheckout.RowTemplate.Height = 45;
             dgvCheckout.ReadOnly = true;
             dgvCheckout.AllowUserToAddRows = false;
+            dgvCheckout.AllowUserToResizeColumns = false;
+            dgvCheckout.AllowUserToResizeRows = false;
             dgvCheckout.RowHeadersVisible = false;
             dgvCheckout.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvCheckout.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -143,26 +143,53 @@ namespace ProjectFajriGans.UserControls
                 return;
             }
 
-            bool berhasil = TransaksiController.SimpanTransaksi(
-                mangga, cabai, jambu, jeruk, alpukat, rambutan
+            string pathQRIS = Path.Combine(Application.StartupPath, "Resources", "Images", "QRIS.png");
+
+            if (File.Exists(pathQRIS))
+                picQRIS.Image = Image.FromFile(pathQRIS);
+
+            pnlOverlayQRIS.Visible = true;
+            pnlQRIS.Visible = true;
+
+            pnlQRIS.Location = new Point(
+                 (this.Width - pnlQRIS.Width) / 2,
+                 (this.Height - pnlQRIS.Height) / 2
             );
+
+            pnlOverlayQRIS.BringToFront();
+            pnlQRIS.BringToFront();
+        }
+
+        private void btnBatalQRIS_Click(object sender, EventArgs e)
+        {
+            pnlQRIS.Visible = false;
+            pnlOverlayQRIS.Visible = false;
+            btnBatalQRIS.Click += btnBatalQRIS_Click;
+            btnSelesaiQRIS.Click += btnSelesaiQRIS_Click;
+        }
+
+        private void btnSelesaiQRIS_Click(object sender, EventArgs e)
+        {
+            bool berhasil = TransaksiController.SimpanTransaksi(keranjang);
 
             if (berhasil)
             {
-                if (mangga > 0) ProdukController.KurangiStok(1, mangga);
-                if (cabai > 0) ProdukController.KurangiStok(2, cabai);
-                if (jambu > 0) ProdukController.KurangiStok(3, jambu);
-                if (jeruk > 0) ProdukController.KurangiStok(4, jeruk);
-                if (alpukat > 0) ProdukController.KurangiStok(5, alpukat);
-                if (rambutan > 0) ProdukController.KurangiStok(6, rambutan);
+                foreach (var item in keranjang)
+                {
+                    if (item.Value > 0)
+                        ProdukController.KurangiStok(item.Key, item.Value);
+                }
 
                 btnEwallet.Enabled = false;
                 PembayaranBerhasil();
 
                 MessageBox.Show("Pembayaran berhasil. Transaksi selesai.");
 
-                mangga = cabai = jambu = jeruk = alpukat = rambutan = 0;
+                keranjang.Clear();
                 TampilkanPesanan();
+
+                pnlQRIS.Visible = false;
+                pnlOverlayQRIS.Visible = false;
             }
             else
             {
@@ -178,6 +205,5 @@ namespace ProjectFajriGans.UserControls
         private void UCCheckout_Load(object sender, EventArgs e) { }
         private void pnlSidebar_Paint(object sender, PaintEventArgs e) { }
         private void pnlDaftarPesanan_Paint(object sender, PaintEventArgs e) { }
-        private void txtCariBibit_TextChanged(object sender, EventArgs e) { }
     }
 }

@@ -1,161 +1,271 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
-using System.Windows.Forms;
 using System.Drawing;
-using ProjectFajriGans.Controllers;
+using System.Globalization;
+using System.IO;
+using System.Windows.Forms;
+using MyBibit.Controllers;
 
-namespace ProjectFajriGans.UserControls
+namespace MyBibit.UserControls
 {
     public partial class UCDashboard : UserControl
     {
         public event Action PindahKeCheckout = delegate { };
         public event Action PindahKeRiwayat = delegate { };
 
-        private int stokMangga, stokCabai, stokJambu;
-        private int stokJeruk, stokAlpukat, stokRambutan;
+        private Dictionary<int, int> keranjang = new Dictionary<int, int>();
 
-        public int JumlahMangga => int.Parse(lblJumlah.Text);
-        public int JumlahCabai => int.Parse(lblJumlahCabai.Text);
-        public int JumlahJambu => int.Parse(lblJumlahJambu.Text);
-        public int JumlahJeruk => int.Parse(lblJumlahJeruk.Text);
-        public int JumlahAlpukat => int.Parse(lblJumlahAlpukat.Text);
-        public int JumlahRambutan => int.Parse(lblJumlahRambutan.Text);
+        private string kategoriAktif = "Semua";
+
+        public Dictionary<int, int> Keranjang => keranjang;
+
+        // sementara biar FormMain lama nggak error
+        public int JumlahMangga => 0;
+        public int JumlahCabai => 0;
+        public int JumlahJambu => 0;
+        public int JumlahJeruk => 0;
+        public int JumlahAlpukat => 0;
+        public int JumlahRambutan => 0;
 
         public UCDashboard()
         {
             InitializeComponent();
+            string namaDepan = Session.Username.Split(' ')[0];
+
+            lblWelcome.Text = "Selamat Datang, " + namaDepan;
+            lblInitial.Text = namaDepan.Substring(0, 1).ToUpper();
+
+            this.AutoScroll = true;
+            pnlContent.AutoScroll = true;
 
             lblTanggal.Text = DateTime.Now.ToString(
                 "dddd, dd MMMM yyyy",
                 new CultureInfo("id-ID")
             );
 
-            AmbilProdukDariDatabase();
-            UpdateStatistik();
+            txtCariBibit.TextChanged += txtCariBibit_TextChanged;
+
+            btnSemua.Click += (s, e) =>
+            {
+                kategoriAktif = "Semua";
+                LoadProduk(txtCariBibit.Text);
+            };
+
+            btnBuah.Click += (s, e) =>
+            {
+                kategoriAktif = "Buah";
+                LoadProduk(txtCariBibit.Text);
+            };
+
+            btnSayur.Click += (s, e) =>
+            {
+                kategoriAktif = "Sayur";
+                LoadProduk(txtCariBibit.Text);
+            };
+
+            LoadProduk();
         }
 
         private string FormatRupiah(int angka)
         {
-            return "Rp " + angka.ToString("N0").Replace(",", ".");
+            return "Rp " + angka.ToString("N0", new CultureInfo("id-ID"));
         }
 
-        private void AmbilProdukDariDatabase()
+        private void LoadProduk(string keyword = "")
         {
+            pnlContent.Controls.Clear();
+            keranjang.Clear();
+
             DataTable dt = ProdukController.AmbilSemuaProduk();
+
+            int totalStok = 0;
+            int jumlahProduk = 0;
+            int dipilih = 0;
+
+            int x = 0;
+            int y = 0;
+            int kolom = 0;
+
+            keyword = keyword.Trim().ToLower();
 
             foreach (DataRow row in dt.Rows)
             {
-                string nama = row["nama"].ToString();
-                int stok = Convert.ToInt32(row["kuantitas"]);
-                int harga = Convert.ToInt32(row["harga"]);
+                DateTime? expired = null;
 
-                if (nama == "Bibit Mangga")
+                if (row["tanggal_expired"] != DBNull.Value)
                 {
-                    stokMangga = stok;
-                    lblHargaMangga.Text = FormatRupiah(harga);
-                    lblStokMangga.Text = "Stok: " + stok;
+                    if (row["tanggal_expired"] is DateOnly tgl)
+                        expired = tgl.ToDateTime(TimeOnly.MinValue);
+                    else
+                        expired = Convert.ToDateTime(row["tanggal_expired"]);
                 }
-                else if (nama == "Bibit Cabai")
+
+                if (expired != null && expired.Value.Date < DateTime.Now.Date)
                 {
-                    stokCabai = stok;
-                    lblHargaCabai.Text = FormatRupiah(harga);
-                    lblStokCabai.Text = "Stok: " + stok;
+                    continue;
                 }
-                else if (nama == "Bibit Jambu")
+                int id = Convert.ToInt32(row["id"]);
+                string nama = row["nama"].ToString();
+                int harga = Convert.ToInt32(row["harga"]);
+                int stok = Convert.ToInt32(row["kuantitas"]);
+                string foto = row["foto"].ToString();
+                string kategori = row["kategori"].ToString();
+
+                bool cocokSearch =
+                 keyword == "" ||
+                     nama.ToLower().Contains(keyword) ||
+                    harga.ToString().Contains(keyword) ||
+                    stok.ToString().Contains(keyword);
+
+                bool cocokKategori =
+                    kategoriAktif == "Semua" ||
+                    kategori == kategoriAktif;
+
+                if (!cocokSearch || !cocokKategori) continue;
+
+                totalStok += stok;
+                jumlahProduk++;
+
+                keranjang[id] = 0;
+
+                Panel card = BuatCardProduk(id, nama, harga, stok, foto);
+                card.Location = new Point(x, y);
+                pnlContent.Controls.Add(card);
+
+                kolom++;
+                x += 330;
+
+                if (kolom == 3)
                 {
-                    stokJambu = stok;
-                    label6.Text = FormatRupiah(harga);
-                    lblStokJambu.Text = "Stok: " + stok;
-                }
-                else if (nama == "Bibit Jeruk")
-                {
-                    stokJeruk = stok;
-                    lblHargaJeruk.Text = FormatRupiah(harga);
-                    lblStokJeruk.Text = "Stok: " + stok;
-                }
-                else if (nama == "Bibit Alpukat")
-                {
-                    stokAlpukat = stok;
-                    lblHargaAlpukat.Text = FormatRupiah(harga);
-                    lblStokAlpukat.Text = "Stok: " + stok;
-                }
-                else if (nama == "Bibit Rambutan")
-                {
-                    stokRambutan = stok;
-                    lblHargaRambutan.Text = FormatRupiah(harga);
-                    lblStokRambutan.Text = "Stok: " + stok;
+                    kolom = 0;
+                    x = 0;
+                    y += 300;
                 }
             }
+
+            lblTotalBibit.Text = jumlahProduk.ToString();
+            lblStokTersedia.Text = totalStok.ToString();
+            lblDipilih.Text = dipilih.ToString();
+
+            lblJumlahBibit.Text = jumlahProduk + " bibit ditemukan";
         }
 
-        private void UpdateStatistik()
+        private Panel BuatCardProduk(int id, string nama, int harga, int stok, string foto)
         {
-            int dipilih = JumlahMangga + JumlahCabai + JumlahJambu + JumlahJeruk + JumlahAlpukat + JumlahRambutan;
-            int stokTersedia = stokMangga + stokCabai + stokJambu + stokJeruk + stokAlpukat + stokRambutan;
+            Panel card = new Panel();
+            card.Size = new Size(300, 270);
+            card.BackColor = Color.White;
+            card.BorderStyle = BorderStyle.FixedSingle;
 
-            int totalBibit = 0;
-            if (stokMangga > 0) totalBibit++;
-            if (stokCabai > 0) totalBibit++;
-            if (stokJambu > 0) totalBibit++;
-            if (stokJeruk > 0) totalBibit++;
-            if (stokAlpukat > 0) totalBibit++;
-            if (stokRambutan > 0) totalBibit++;
+            PictureBox pic = new PictureBox();
+            pic.Location = new Point(0, 0);
+            pic.Size = new Size(300, 140);
+            pic.SizeMode = PictureBoxSizeMode.Zoom;
+            pic.BackColor = Color.FromArgb(245, 248, 245);
 
-            lblTotalBibit.Text = totalBibit.ToString();
-            lblStokTersedia.Text = stokTersedia.ToString();
-            lblDipilih.Text = dipilih.ToString();
+            string pathFoto = Path.Combine(Application.StartupPath, "Images", foto);
+            if (File.Exists(pathFoto))
+                pic.Image = Image.FromFile(pathFoto);
+
+            Label lblStok = new Label();
+            lblStok.Text = "Stok: " + stok;
+            lblStok.AutoSize = true;
+            lblStok.BackColor = Color.White;
+            lblStok.ForeColor = Color.Green;
+            lblStok.Location = new Point(220, 10);
+
+            Label lblNama = new Label();
+            lblNama.Text = nama;
+            lblNama.AutoSize = true;
+            lblNama.Font = new Font("Segoe UI", 14, FontStyle.Bold);
+            lblNama.ForeColor = Color.FromArgb(30, 50, 35);
+            lblNama.Location = new Point(18, 155);
+
+            Label lblHarga = new Label();
+            lblHarga.Text = FormatRupiah(harga);
+            lblHarga.AutoSize = true;
+            lblHarga.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+            lblHarga.ForeColor = Color.Green;
+            lblHarga.Location = new Point(18, 190);
+
+            Button btnMinus = new Button();
+            btnMinus.Text = "-";
+            btnMinus.Size = new Size(30, 30);
+            btnMinus.Location = new Point(18, 225);
+            btnMinus.BackColor = Color.FromArgb(235, 245, 235);
+            btnMinus.FlatStyle = FlatStyle.Flat;
+
+            Label lblJumlah = new Label();
+            lblJumlah.Text = "0";
+            lblJumlah.AutoSize = true;
+            lblJumlah.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            lblJumlah.Location = new Point(65, 230);
+
+            Button btnPlus = new Button();
+            btnPlus.Text = "+";
+            btnPlus.Size = new Size(30, 30);
+            btnPlus.Location = new Point(100, 225);
+            btnPlus.BackColor = Color.FromArgb(22, 101, 52);
+            btnPlus.ForeColor = Color.White;
+            btnPlus.FlatStyle = FlatStyle.Flat;
+
+            btnPlus.Click += (s, e) =>
+            {
+                int jumlah = int.Parse(lblJumlah.Text);
+                if (jumlah >= stok) return;
+
+                jumlah++;
+                lblJumlah.Text = jumlah.ToString();
+                keranjang[id] = jumlah;
+                UpdateDipilih();
+            };
+
+            btnMinus.Click += (s, e) =>
+            {
+                int jumlah = int.Parse(lblJumlah.Text);
+                if (jumlah <= 0) return;
+
+                jumlah--;
+                lblJumlah.Text = jumlah.ToString();
+                keranjang[id] = jumlah;
+                UpdateDipilih();
+            };
+
+            card.Controls.Add(pic);
+            pic.Controls.Add(lblStok);
+            card.Controls.Add(lblNama);
+            card.Controls.Add(lblHarga);
+            card.Controls.Add(btnMinus);
+            card.Controls.Add(lblJumlah);
+            card.Controls.Add(btnPlus);
+
+            lblStok.BringToFront();
+
+            return card;
+        }
+
+        private void UpdateDipilih()
+        {
+            int total = 0;
+
+            foreach (var item in keranjang)
+            {
+                total += item.Value;
+            }
+
+            lblDipilih.Text = total.ToString();
         }
 
         public void SelesaiPembayaran()
         {
-            AmbilProdukDariDatabase();
-
-            lblJumlah.Text = "0";
-            lblJumlahCabai.Text = "0";
-            lblJumlahJambu.Text = "0";
-            lblJumlahJeruk.Text = "0";
-            lblJumlahAlpukat.Text = "0";
-            lblJumlahRambutan.Text = "0";
-
-            UpdateStatistik();
+            LoadProduk();
         }
 
-        private void TambahJumlah(Label label, int stok)
+        private void txtCariBibit_TextChanged(object sender, EventArgs e)
         {
-            int jumlah = int.Parse(label.Text);
-            if (jumlah >= stok) return;
-
-            label.Text = (jumlah + 1).ToString();
-            UpdateStatistik();
+            LoadProduk(txtCariBibit.Text);
         }
-
-        private void KurangJumlah(Label label)
-        {
-            int jumlah = int.Parse(label.Text);
-            if (jumlah <= 0) return;
-
-            label.Text = (jumlah - 1).ToString();
-            UpdateStatistik();
-        }
-
-        private void btnPlus_Click(object sender, EventArgs e) => TambahJumlah(lblJumlah, stokMangga);
-        private void btnMinus_Click(object sender, EventArgs e) => KurangJumlah(lblJumlah);
-
-        private void btnPlusCabai_Click(object sender, EventArgs e) => TambahJumlah(lblJumlahCabai, stokCabai);
-        private void btnMinusCabai_Click(object sender, EventArgs e) => KurangJumlah(lblJumlahCabai);
-
-        private void btnPlusJambu_Click(object sender, EventArgs e) => TambahJumlah(lblJumlahJambu, stokJambu);
-        private void btnMinusJambu_Click(object sender, EventArgs e) => KurangJumlah(lblJumlahJambu);
-
-        private void btnPlusJeruk_Click(object sender, EventArgs e) => TambahJumlah(lblJumlahJeruk, stokJeruk);
-        private void btnMinusJeruk_Click(object sender, EventArgs e) => KurangJumlah(lblJumlahJeruk);
-
-        private void btnPlusAlpukat_Click(object sender, EventArgs e) => TambahJumlah(lblJumlahAlpukat, stokAlpukat);
-        private void btnMinusAlpukat_Click(object sender, EventArgs e) => KurangJumlah(lblJumlahAlpukat);
-
-        private void btnPlusRambutan_Click(object sender, EventArgs e) => TambahJumlah(lblJumlahRambutan, stokRambutan);
-        private void btnMinusRambutan_Click(object sender, EventArgs e) => KurangJumlah(lblJumlahRambutan);
 
         private void MenuCheckout_Click(object sender, EventArgs e) => PindahKeCheckout();
 
@@ -167,18 +277,6 @@ namespace ProjectFajriGans.UserControls
         private void btnLogout_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-
-        private void txtCariBibit_TextChanged(object sender, EventArgs e)
-        {
-            string cari = txtCariBibit.Text.Trim().ToLower();
-
-            lblNamaMangga.BackColor = cari != "" && "bibit mangga".Contains(cari) ? Color.LightGreen : Color.Transparent;
-            lblNamaCabai.BackColor = cari != "" && "bibit cabai".Contains(cari) ? Color.LightGreen : Color.Transparent;
-            lblNamaJambu.BackColor = cari != "" && "bibit jambu".Contains(cari) ? Color.LightGreen : Color.Transparent;
-            lblNamaJeruk.BackColor = cari != "" && "bibit jeruk".Contains(cari) ? Color.LightGreen : Color.Transparent;
-            lblNamaAlpukat.BackColor = cari != "" && "bibit alpukat".Contains(cari) ? Color.LightGreen : Color.Transparent;
-            lblNamaRambutan.BackColor = cari != "" && "bibit rambutan".Contains(cari) ? Color.LightGreen : Color.Transparent;
         }
 
         private void picCart_Load(object sender, EventArgs e) { }

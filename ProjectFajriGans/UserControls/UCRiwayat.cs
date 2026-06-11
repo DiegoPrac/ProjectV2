@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
-using ProjectFajriGans.Controllers;
+using MyBibit.Controllers;
 
-namespace ProjectFajriGans.UserControls
+namespace MyBibit.UserControls
 {
     public partial class UCRiwayat : UserControl
     {
@@ -16,6 +16,11 @@ namespace ProjectFajriGans.UserControls
         public UCRiwayat()
         {
             InitializeComponent();
+            string namaDepan = Session.Username.Split(' ')[0];
+
+
+            lblWelcome.Text = "Selamat Datang, " + namaDepan;
+            lblInitial.Text = namaDepan.Substring(0, 1).ToUpper();
 
             lblTanggal.Text = DateTime.Now.ToString(
                 "dddd, dd MMMM yyyy",
@@ -69,7 +74,7 @@ namespace ProjectFajriGans.UserControls
             foreach (DataRow row in dtAsli.Rows)
             {
                 string fotoFile = row["FotoFile"].ToString();
-                string pathFoto = Path.Combine(Application.StartupPath, "Resources", "Images", fotoFile);
+                string pathFoto = Path.Combine(Application.StartupPath, "Images", fotoFile);
 
                 int harga = Convert.ToInt32(row["Harga"]);
                 int qty = Convert.ToInt32(row["Qty"]);
@@ -102,6 +107,8 @@ namespace ProjectFajriGans.UserControls
 
             lblTotalTransaksi.Text = dtAsli.Rows.Count.ToString();
             lblTotalPengeluaran.Text = FormatRupiah(totalPengeluaran);
+            lblTotalPengeluaran.AutoSize = true;
+            lblTotalPengeluaran.BringToFront();
             lblTransaksiSelesai.Text = totalItem.ToString();
         }
 

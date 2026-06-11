@@ -1,4 +1,4 @@
-﻿namespace ProjectFajriGans
+﻿namespace MyBibit
 {
     partial class FormMain
     {

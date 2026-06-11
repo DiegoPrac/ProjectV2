@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ProjectFajriGans.Models
+namespace MyBibit.Models
 {
     public class User
     {

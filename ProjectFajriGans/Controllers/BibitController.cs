@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Npgsql;
-using ProjectFajriGans.Database;
+using MyBibit.Database;
 
-namespace ProjectFajriGans.Controllers
+namespace MyBibit.Controllers
 {
     public class BibitController
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using Npgsql;
 using BCrypt.Net;
-using ProjectFajriGans.Database;
-using ProjectFajriGans.Models;
+using MyBibit.Database;
+using MyBibit.Models;
 
-namespace ProjectFajriGans.Repositories
+namespace MyBibit.Repositories
 {
     public class UserRepository
     {

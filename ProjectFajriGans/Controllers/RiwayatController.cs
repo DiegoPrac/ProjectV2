@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Data;
 using Npgsql;
-using ProjectFajriGans.Database;
+using MyBibit.Database;
 
-namespace ProjectFajriGans.Controllers
+namespace MyBibit.Controllers
 {
     public class RiwayatController
     {
@@ -22,19 +22,21 @@ namespace ProjectFajriGans.Controllers
                         p.nama AS Produk,
                         d.harga AS Harga,
                         d.kuantitas AS Qty,
-                        (d.harga * d.kuantitas) AS Total,
-                        CASE 
-                            WHEN o.status = TRUE THEN 'Selesai'
-                            ELSE 'Proses'
+                        d.subtotal AS Total,
+                        CASE WHEN o.status = TRUE THEN 'Selesai'
+                             ELSE 'Diproses'
                         END AS Status
                     FROM orders o
-                    JOIN detail_order d ON o.id = d.id_order
-                    JOIN produk p ON d.id_produk = p.id
-                    WHERE o.tanggal BETWEEN @awal AND @akhir
+                    JOIN users u ON o.id_users = u.id_users
+                    JOIN detail_order d ON o.id_order = d.id_order
+                    JOIN produk p ON d.id_produk = p.id_produk
+                    WHERE u.username = @username
+                    AND o.tanggal BETWEEN @awal AND @akhir
                     ORDER BY o.tanggal DESC";
 
                 using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conn))
                 {
+                    da.SelectCommand.Parameters.AddWithValue("@username", Session.Username);
                     da.SelectCommand.Parameters.AddWithValue("@awal", awal.Date);
                     da.SelectCommand.Parameters.AddWithValue("@akhir", akhir.Date);
                     da.Fill(dt);

@@ -1,4 +1,4 @@
-﻿namespace ProjectFajriGans.UserControls
+﻿namespace MyBibit.UserControls
 {
     partial class UCCheckout
     {
@@ -30,9 +30,6 @@
         {
             lblTanggal = new Label();
             lblWelcome = new Label();
-            pnlSearch = new Panel();
-            txtCariBibit = new TextBox();
-            picSearch = new PictureBox();
             pnlAvatar = new Panel();
             lblInitial = new Label();
             pnlSidebar = new Panel();
@@ -57,8 +54,11 @@
             lblJumlahItem = new Label();
             lblItemDipilih = new Label();
             dgvCheckout = new DataGridView();
-            pnlSearch.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)picSearch).BeginInit();
+            pnlQRIS = new Panel();
+            btnSelesaiQRIS = new Button();
+            btnBatalQRIS = new Button();
+            picQRIS = new PictureBox();
+            pnlOverlayQRIS = new Panel();
             pnlAvatar.SuspendLayout();
             pnlSidebar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogout).BeginInit();
@@ -69,6 +69,8 @@
             pnlRingkasan.SuspendLayout();
             pnlTotalHarga.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCheckout).BeginInit();
+            pnlQRIS.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picQRIS).BeginInit();
             SuspendLayout();
             // 
             // lblTanggal
@@ -93,46 +95,12 @@
             lblWelcome.TabIndex = 3;
             lblWelcome.Text = "Selamat Datang, User ";
             // 
-            // pnlSearch
-            // 
-            pnlSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            pnlSearch.BackColor = Color.FromArgb(243, 247, 243);
-            pnlSearch.BorderStyle = BorderStyle.FixedSingle;
-            pnlSearch.Controls.Add(txtCariBibit);
-            pnlSearch.Controls.Add(picSearch);
-            pnlSearch.Location = new Point(1003, 40);
-            pnlSearch.Name = "pnlSearch";
-            pnlSearch.Size = new Size(250, 40);
-            pnlSearch.TabIndex = 4;
-            // 
-            // txtCariBibit
-            // 
-            txtCariBibit.BorderStyle = BorderStyle.None;
-            txtCariBibit.ForeColor = Color.Gray;
-            txtCariBibit.Location = new Point(33, 6);
-            txtCariBibit.Name = "txtCariBibit";
-            txtCariBibit.Size = new Size(180, 24);
-            txtCariBibit.TabIndex = 4;
-            txtCariBibit.Text = "Cari bibit...";
-            txtCariBibit.TextChanged += txtCariBibit_TextChanged;
-            // 
-            // picSearch
-            // 
-            picSearch.BackColor = Color.Transparent;
-            picSearch.BackgroundImage = Properties.Resources.pentung;
-            picSearch.BackgroundImageLayout = ImageLayout.Zoom;
-            picSearch.Location = new Point(7, 11);
-            picSearch.Name = "picSearch";
-            picSearch.Size = new Size(16, 16);
-            picSearch.TabIndex = 4;
-            picSearch.TabStop = false;
-            // 
             // pnlAvatar
             // 
             pnlAvatar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pnlAvatar.BackColor = Color.FromArgb(22, 101, 52);
             pnlAvatar.Controls.Add(lblInitial);
-            pnlAvatar.Location = new Point(1270, 40);
+            pnlAvatar.Location = new Point(1904, 40);
             pnlAvatar.Name = "pnlAvatar";
             pnlAvatar.Size = new Size(40, 40);
             pnlAvatar.TabIndex = 7;
@@ -167,7 +135,7 @@
             pnlSidebar.Dock = DockStyle.Left;
             pnlSidebar.Location = new Point(0, 0);
             pnlSidebar.Name = "pnlSidebar";
-            pnlSidebar.Size = new Size(220, 1100);
+            pnlSidebar.Size = new Size(220, 1500);
             pnlSidebar.TabIndex = 8;
             // 
             // picLogout
@@ -176,7 +144,7 @@
             picLogout.BackColor = Color.Transparent;
             picLogout.BackgroundImage = Properties.Resources._out;
             picLogout.BackgroundImageLayout = ImageLayout.Zoom;
-            picLogout.Location = new Point(11, 1025);
+            picLogout.Location = new Point(11, 1425);
             picLogout.Name = "picLogout";
             picLogout.Size = new Size(20, 20);
             picLogout.TabIndex = 8;
@@ -191,7 +159,7 @@
             btnLogout.FlatStyle = FlatStyle.Flat;
             btnLogout.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnLogout.ForeColor = Color.White;
-            btnLogout.Location = new Point(24, 1012);
+            btnLogout.Location = new Point(24, 1412);
             btnLogout.Name = "btnLogout";
             btnLogout.Padding = new Padding(15, 0, 0, 0);
             btnLogout.Size = new Size(180, 40);
@@ -434,27 +402,81 @@
             dgvCheckout.Size = new Size(900, 350);
             dgvCheckout.TabIndex = 12;
             // 
+            // pnlQRIS
+            // 
+            pnlQRIS.BackColor = Color.White;
+            pnlQRIS.BorderStyle = BorderStyle.FixedSingle;
+            pnlQRIS.Controls.Add(btnSelesaiQRIS);
+            pnlQRIS.Controls.Add(btnBatalQRIS);
+            pnlQRIS.Controls.Add(picQRIS);
+            pnlQRIS.Location = new Point(1214, 194);
+            pnlQRIS.Name = "pnlQRIS";
+            pnlQRIS.Size = new Size(552, 527);
+            pnlQRIS.TabIndex = 33;
+            pnlQRIS.Visible = false;
+            // 
+            // btnSelesaiQRIS
+            // 
+            btnSelesaiQRIS.BackColor = Color.Green;
+            btnSelesaiQRIS.ForeColor = Color.White;
+            btnSelesaiQRIS.Location = new Point(391, 469);
+            btnSelesaiQRIS.Name = "btnSelesaiQRIS";
+            btnSelesaiQRIS.Size = new Size(112, 34);
+            btnSelesaiQRIS.TabIndex = 6;
+            btnSelesaiQRIS.Text = "Selesai";
+            btnSelesaiQRIS.UseVisualStyleBackColor = false;
+            btnSelesaiQRIS.Click += btnSelesaiQRIS_Click;
+            // 
+            // btnBatalQRIS
+            // 
+            btnBatalQRIS.BackColor = Color.Gray;
+            btnBatalQRIS.ForeColor = Color.DarkGreen;
+            btnBatalQRIS.Location = new Point(60, 469);
+            btnBatalQRIS.Name = "btnBatalQRIS";
+            btnBatalQRIS.Size = new Size(112, 34);
+            btnBatalQRIS.TabIndex = 5;
+            btnBatalQRIS.Text = "Batal";
+            btnBatalQRIS.UseVisualStyleBackColor = false;
+            btnBatalQRIS.Click += btnBatalQRIS_Click;
+            // 
+            // picQRIS
+            // 
+            picQRIS.Location = new Point(60, 26);
+            picQRIS.Name = "picQRIS";
+            picQRIS.Size = new Size(443, 425);
+            picQRIS.SizeMode = PictureBoxSizeMode.Zoom;
+            picQRIS.TabIndex = 0;
+            picQRIS.TabStop = false;
+            // 
+            // pnlOverlayQRIS
+            // 
+            pnlOverlayQRIS.BackColor = Color.FromArgb(160, 0, 0, 0);
+            pnlOverlayQRIS.Dock = DockStyle.Fill;
+            pnlOverlayQRIS.Location = new Point(0, 0);
+            pnlOverlayQRIS.Name = "pnlOverlayQRIS";
+            pnlOverlayQRIS.Size = new Size(2000, 1500);
+            pnlOverlayQRIS.TabIndex = 34;
+            pnlOverlayQRIS.Visible = false;
+            // 
             // UCCheckout
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             BackColor = Color.FromArgb(242, 247, 242);
+            Controls.Add(pnlQRIS);
             Controls.Add(dgvCheckout);
             Controls.Add(pnlRingkasan);
             Controls.Add(lblCheckout);
             Controls.Add(pnlSidebar);
             Controls.Add(pnlAvatar);
-            Controls.Add(pnlSearch);
             Controls.Add(lblWelcome);
             Controls.Add(lblTanggal);
+            Controls.Add(pnlOverlayQRIS);
             Name = "UCCheckout";
-            Size = new Size(1366, 1100);
+            Size = new Size(2000, 1500);
             Load += UCCheckout_Load;
             Click += btnLogout_Click;
-            pnlSearch.ResumeLayout(false);
-            pnlSearch.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)picSearch).EndInit();
             pnlAvatar.ResumeLayout(false);
             pnlAvatar.PerformLayout();
             pnlSidebar.ResumeLayout(false);
@@ -469,6 +491,8 @@
             pnlTotalHarga.ResumeLayout(false);
             pnlTotalHarga.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCheckout).EndInit();
+            pnlQRIS.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)picQRIS).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -476,9 +500,6 @@
         #endregion
         private Label lblTanggal;
         private Label lblWelcome;
-        private Panel pnlSearch;
-        private TextBox txtCariBibit;
-        private PictureBox picSearch;
         private Panel pnlAvatar;
         private Label lblInitial;
         private Panel pnlSidebar;
@@ -503,5 +524,10 @@
         private Label lblTitleTotalHarga;
         private PictureBox picLogout;
         private DataGridView dgvCheckout;
+        private Panel pnlQRIS;
+        private Button btnSelesaiQRIS;
+        private Button btnBatalQRIS;
+        private PictureBox picQRIS;
+        private Panel pnlOverlayQRIS;
     }
 }
