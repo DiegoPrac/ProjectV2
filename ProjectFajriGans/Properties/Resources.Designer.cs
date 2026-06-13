@@ -313,6 +313,16 @@ namespace MyBibit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Restock {
+            get {
+                object obj = ResourceManager.GetObject("Restock", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap riwayas {
             get {
                 object obj = ResourceManager.GetObject("riwayas", resourceCulture);

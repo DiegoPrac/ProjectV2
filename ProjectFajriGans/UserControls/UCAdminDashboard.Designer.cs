@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             pnlSidebar = new Panel();
+            pictureBox1 = new PictureBox();
+            btnRestock = new Button();
             picLogout = new PictureBox();
             btnLogout = new Button();
             picKaryawan = new PictureBox();
@@ -106,6 +108,7 @@
             formsPlotPenjualan = new ScottPlot.WinForms.FormsPlot();
             npgsqlDataAdapter1 = new Npgsql.NpgsqlDataAdapter();
             pnlSidebar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picLogout).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picKaryawan).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picDashboard).BeginInit();
@@ -134,6 +137,8 @@
             // pnlSidebar
             // 
             pnlSidebar.BackColor = Color.FromArgb(18, 96, 48);
+            pnlSidebar.Controls.Add(pictureBox1);
+            pnlSidebar.Controls.Add(btnRestock);
             pnlSidebar.Controls.Add(picLogout);
             pnlSidebar.Controls.Add(btnLogout);
             pnlSidebar.Controls.Add(picKaryawan);
@@ -148,6 +153,35 @@
             pnlSidebar.Name = "pnlSidebar";
             pnlSidebar.Size = new Size(220, 1500);
             pnlSidebar.TabIndex = 16;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.BackgroundImage = Properties.Resources.Restock;
+            pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox1.Location = new Point(11, 331);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(20, 20);
+            pictureBox1.TabIndex = 17;
+            pictureBox1.TabStop = false;
+            // 
+            // btnRestock
+            // 
+            btnRestock.BackColor = Color.Transparent;
+            btnRestock.Cursor = Cursors.Hand;
+            btnRestock.FlatAppearance.BorderSize = 0;
+            btnRestock.FlatStyle = FlatStyle.Flat;
+            btnRestock.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnRestock.ForeColor = Color.White;
+            btnRestock.Location = new Point(21, 319);
+            btnRestock.Name = "btnRestock";
+            btnRestock.Padding = new Padding(15, 0, 0, 0);
+            btnRestock.Size = new Size(160, 40);
+            btnRestock.TabIndex = 16;
+            btnRestock.Text = "Restock";
+            btnRestock.TextAlign = ContentAlignment.MiddleLeft;
+            btnRestock.UseVisualStyleBackColor = false;
+            btnRestock.Click += btnRestock_Click;
             // 
             // picLogout
             // 
@@ -178,6 +212,7 @@
             btnLogout.Text = "Logout";
             btnLogout.TextAlign = ContentAlignment.MiddleLeft;
             btnLogout.UseVisualStyleBackColor = false;
+            btnLogout.Click += btnLogout_Click;
             // 
             // picKaryawan
             // 
@@ -216,6 +251,7 @@
             btnDashboard.Text = "Dashboard";
             btnDashboard.TextAlign = ContentAlignment.MiddleLeft;
             btnDashboard.UseVisualStyleBackColor = false;
+            btnDashboard.Click += btnDashboard_Click;
             // 
             // btnKaryawan
             // 
@@ -233,6 +269,7 @@
             btnKaryawan.Text = "Karyawan";
             btnKaryawan.TextAlign = ContentAlignment.MiddleLeft;
             btnKaryawan.UseVisualStyleBackColor = false;
+            btnKaryawan.Click += this.btnKaryawan_Click;
             // 
             // lblTagline
             // 
@@ -1123,6 +1160,7 @@
             Size = new Size(2000, 1500);
             pnlSidebar.ResumeLayout(false);
             pnlSidebar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)picLogout).EndInit();
             ((System.ComponentModel.ISupportInitialize)picKaryawan).EndInit();
             ((System.ComponentModel.ISupportInitialize)picDashboard).EndInit();
@@ -1240,5 +1278,7 @@
         private Label lblTotalPenjualan;
         private ScottPlot.WinForms.FormsPlot formsPlotPenjualan;
         private Npgsql.NpgsqlDataAdapter npgsqlDataAdapter1;
+        private Button btnRestock;
+        private PictureBox pictureBox1;
     }
 }

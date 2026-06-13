@@ -166,5 +166,17 @@ namespace MyBibit.UserControls
                     $"Convert([Status], 'System.String') LIKE '%{keyword}%'";
             }
         }
+
+        private void btnRestock_Click(object sender, EventArgs e)
+        {
+            FormMain main = this.FindForm() as FormMain;
+            if (main != null)
+                main.LoadRestockAdmin();
+        }
+
+        private void btnDashboard_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

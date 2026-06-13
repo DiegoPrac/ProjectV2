@@ -16,15 +16,18 @@ namespace MyBibit.UserControls
         {
             InitializeComponent();
 
-            string namaDepan = Session.Username.Split(' ')[0];
+            string username = string.IsNullOrEmpty(Session.Username) ? "User" : Session.Username;
+            string namaDepan = username.Split(' ')[0];
 
             lblTanggal.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy", new CultureInfo("id-ID"));
 
-            lblLogo.Text = namaDepan.Substring(0, 1).ToUpper();
-            lblTitle.Text = "MyBibit";
+            lblTitle.Text = namaDepan.Substring(0, 1).ToUpper();
+            lblTitle.ForeColor = Color.White;
+            lblTitle.Visible = true;
 
             SetupTampilan();
             LoadOrder();
+
         }
 
         private void SetupTampilan()
@@ -255,6 +258,15 @@ namespace MyBibit.UserControls
             }
 
             lblJumlahOrder.Text = jumlah + " order ditemukan";
+        }
+
+
+
+        private void btnRestock_Click(object sender, EventArgs e)
+        {
+            FormMain main = this.FindForm() as FormMain;
+            if (main != null)
+                main.LoadRestockKaryawan();
         }
     }
 }

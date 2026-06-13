@@ -401,13 +401,39 @@ namespace MyBibit.UserControls
             lblStok.BringToFront();
 
             return card;
-        } 
+        }
 
         private void txtCariBibit_TextChanged(object sender, EventArgs e)
         {
             LoadProduk(txtCariBibit.Text);
         }
 
+        private void btnRestock_Click(object sender, EventArgs e)
+        {
+            FormMain main = this.FindForm() as FormMain;
+
+            if (main != null)
+                main.LoadRestockAdmin();
+        }
+
         private void lblWelcome_Click(object sender, EventArgs e) { }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDashboard_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnKaryawan_Click(object sender, EventArgs e)
+        {
+            FormMain main = this.FindForm() as FormMain;
+            if (main != null)
+                main.LoadKaryawanAdmin();
+        }
+
     }
 }

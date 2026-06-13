@@ -71,11 +71,11 @@ namespace MyBibit.Controllers
                 conn.Open();
 
                 string query = @"
-                    INSERT INTO produk
-                    (nama, harga, kuantitas, foto, id_kategori, tanggal_expired, is_deleted)
-                    VALUES
-                    (@nama, @harga, @stok, @foto, @idKategori, @expired, FALSE)";
-
+            INSERT INTO produk
+            (nama, harga, kuantitas, foto, id_kategori, tanggal_expired)
+            VALUES
+            (@nama, @harga, @stok, @foto, @idKategori, @expired)
+        ";
 
                 using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                 {

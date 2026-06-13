@@ -15,6 +15,7 @@ namespace MyBibit.UserControls
         private int idProdukEdit = 0;
         private string fotoLama = "";
         private string kategoriAktif = "Semua";
+        private int stokLamaEdit = 0;
 
         public UCDashboardKaryawan()
         {
@@ -22,7 +23,9 @@ namespace MyBibit.UserControls
 
             lblTanggal.Text = DateTime.Now.ToString("dddd, dd MMMM yyyy", new CultureInfo("id-ID"));
 
-            string namaDepan = Session.Username.Split(' ')[0];
+            string username = string.IsNullOrEmpty(Session.Username) ? "Karyawan" : Session.Username;
+            string namaDepan = username.Split(' ')[0];
+
             lblWelcome.Text = "Selamat Datang, " + namaDepan;
             lblInitial.Text = namaDepan.Substring(0, 1).ToUpper();
 
@@ -75,7 +78,10 @@ namespace MyBibit.UserControls
             DataTable dt = ProdukController.AmbilSemuaProduk();
 
             int totalStok = 0;
-            int x = 0, y = 0, kolom = 0, jumlahTampil = 0;
+            int x = 0;
+            int y = 0;
+            int kolom = 0;
+            int jumlahTampil = 0;
 
             keyword = keyword.Trim().ToLower();
 
@@ -99,7 +105,8 @@ namespace MyBibit.UserControls
                     kategoriAktif == "Semua" ||
                     kategori == kategoriAktif;
 
-                if (!cocokSearch || !cocokKategori) continue;
+                if (!cocokSearch || !cocokKategori)
+                    continue;
 
                 totalStok += stok;
                 jumlahTampil++;
@@ -219,7 +226,6 @@ namespace MyBibit.UserControls
             card.Controls.Add(pic);
             pic.Controls.Add(lblStatusExpired);
             pic.Controls.Add(lblStok);
-
             card.Controls.Add(lblNama);
             card.Controls.Add(lblHarga);
             card.Controls.Add(btnHapus);
@@ -240,10 +246,13 @@ namespace MyBibit.UserControls
         {
             pnlOverlay.Dock = DockStyle.Fill;
             pnlOverlay.BackColor = Color.FromArgb(180, 0, 0, 0);
+
             pnlPopupProduk.Size = new Size(420, 680);
             pnlPopupProduk.BackColor = Color.White;
             pnlPopupProduk.BorderStyle = BorderStyle.FixedSingle;
+
             picProduk.SizeMode = PictureBoxSizeMode.Zoom;
+
             btnPilihFoto.Visible = true;
             btnPilihFoto.Text = "+";
         }
@@ -252,12 +261,15 @@ namespace MyBibit.UserControls
         {
             modeEdit = false;
             idProdukEdit = 0;
+            stokLamaEdit = 0;
             fotoLama = "";
             fotoPath = "";
+
             txtNamaProduk.Clear();
             txtHargaProduk.Clear();
             txtStokProduk.Clear();
             picProduk.Image = null;
+
             TampilkanPopup();
         }
 
@@ -276,6 +288,8 @@ namespace MyBibit.UserControls
             txtNamaProduk.Text = row["nama"].ToString();
             txtHargaProduk.Text = row["harga"].ToString();
             txtStokProduk.Text = row["kuantitas"].ToString();
+
+            stokLamaEdit = Convert.ToInt32(row["kuantitas"]);
 
             cmbKategori.SelectedIndex = Convert.ToInt32(row["id_kategori"]) == 1 ? 0 : 1;
 
@@ -312,6 +326,7 @@ namespace MyBibit.UserControls
 
             pnlOverlay.Visible = true;
             pnlPopupProduk.Visible = true;
+
             pnlOverlay.BringToFront();
             pnlPopupProduk.BringToFront();
         }
@@ -328,6 +343,7 @@ namespace MyBibit.UserControls
                 return fotoLama;
 
             string folderImages = Path.Combine(Application.StartupPath, "Images");
+
             if (!Directory.Exists(folderImages))
                 Directory.CreateDirectory(folderImages);
 
@@ -397,12 +413,46 @@ namespace MyBibit.UserControls
 
             if (modeEdit)
             {
-                ProdukController.UpdateProduk(idProdukEdit, txtNamaProduk.Text, harga, stok, namaFoto, idKategori, expired);
+                ProdukController.UpdateProduk(
+                    idProdukEdit,
+                    txtNamaProduk.Text,
+                    harga,
+                    stok,
+                    namaFoto,
+                    idKategori,
+                    expired
+                );
+
+                if (stok > stokLamaEdit)
+                {
+                    int jumlahRestock = stok - stokLamaEdit;
+
+                    int hargaSupplier = harga - 1000;
+
+                    if (hargaSupplier < 0)
+                        hargaSupplier = harga;
+
+                    RestockController.TambahRestockOtomatis(
+                        idProdukEdit,
+                        hargaSupplier,
+                        jumlahRestock,
+                        Session.Username
+                    );
+                }
+
                 MessageBox.Show("Produk berhasil diupdate.");
             }
             else
             {
-                ProdukController.TambahProduk(txtNamaProduk.Text, harga, stok, namaFoto, idKategori, expired);
+                ProdukController.TambahProduk(
+                    txtNamaProduk.Text,
+                    harga,
+                    stok,
+                    namaFoto,
+                    idKategori,
+                    expired
+                );
+
                 MessageBox.Show("Produk berhasil ditambahkan.");
             }
 
@@ -417,12 +467,20 @@ namespace MyBibit.UserControls
 
         private void btnOrderDetail_Click(object sender, EventArgs e)
         {
-            ((FormMain)this.FindForm()).LoadOrderDetailKaryawan();
+            FormMain main = this.FindForm() as FormMain;
+            if (main != null) main.LoadOrderDetailKaryawan();
+        }
+
+        private void btnRestock_Click(object sender, EventArgs e)
+        {
+            FormMain main = this.FindForm() as FormMain;
+            if (main != null) main.LoadRestockKaryawan();
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            ((FormMain)this.FindForm()).LoadLogin();
+            FormMain main = this.FindForm() as FormMain;
+            if (main != null) main.LoadLogin();
         }
 
         private void pnlOverlay_Paint(object sender, PaintEventArgs e) { }

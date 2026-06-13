@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             pnlSidebar = new Panel();
+            pictureBox1 = new PictureBox();
+            btnRestock = new Button();
+            lblLogo = new Label();
             picLogout = new PictureBox();
             btnLogout = new Button();
             picRiwayat = new PictureBox();
@@ -36,7 +39,6 @@
             btnDashboard = new Button();
             btnOrderDetail = new Button();
             lblTagline = new Label();
-            lblLogo = new Label();
             picLogo = new PictureBox();
             lblTanggal = new Label();
             lblOrder = new Label();
@@ -67,6 +69,7 @@
             colSubtotal = new DataGridViewTextBoxColumn();
             lblDetailOrder = new Label();
             pnlSidebar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picLogout).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picRiwayat).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picDashboard).BeginInit();
@@ -85,6 +88,9 @@
             // pnlSidebar
             // 
             pnlSidebar.BackColor = Color.FromArgb(18, 96, 48);
+            pnlSidebar.Controls.Add(pictureBox1);
+            pnlSidebar.Controls.Add(btnRestock);
+            pnlSidebar.Controls.Add(lblLogo);
             pnlSidebar.Controls.Add(picLogout);
             pnlSidebar.Controls.Add(btnLogout);
             pnlSidebar.Controls.Add(picRiwayat);
@@ -92,13 +98,54 @@
             pnlSidebar.Controls.Add(btnDashboard);
             pnlSidebar.Controls.Add(btnOrderDetail);
             pnlSidebar.Controls.Add(lblTagline);
-            pnlSidebar.Controls.Add(lblLogo);
             pnlSidebar.Controls.Add(picLogo);
             pnlSidebar.Dock = DockStyle.Left;
             pnlSidebar.Location = new Point(0, 0);
             pnlSidebar.Name = "pnlSidebar";
             pnlSidebar.Size = new Size(220, 1500);
             pnlSidebar.TabIndex = 16;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.BackgroundImage = Properties.Resources.Restock;
+            pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox1.Location = new Point(11, 331);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(20, 20);
+            pictureBox1.TabIndex = 18;
+            pictureBox1.TabStop = false;
+            // 
+            // btnRestock
+            // 
+            btnRestock.BackColor = Color.Transparent;
+            btnRestock.Cursor = Cursors.Hand;
+            btnRestock.FlatAppearance.BorderSize = 0;
+            btnRestock.FlatStyle = FlatStyle.Flat;
+            btnRestock.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnRestock.ForeColor = Color.White;
+            btnRestock.Location = new Point(21, 319);
+            btnRestock.Name = "btnRestock";
+            btnRestock.Padding = new Padding(15, 0, 0, 0);
+            btnRestock.Size = new Size(160, 40);
+            btnRestock.TabIndex = 17;
+            btnRestock.Text = "Restock";
+            btnRestock.TextAlign = ContentAlignment.MiddleLeft;
+            btnRestock.UseVisualStyleBackColor = false;
+            btnRestock.Click += btnRestock_Click;
+            // 
+            // lblLogo
+            // 
+            lblLogo.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblLogo.AutoSize = true;
+            lblLogo.BackColor = Color.Transparent;
+            lblLogo.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblLogo.ForeColor = Color.White;
+            lblLogo.Location = new Point(44, 103);
+            lblLogo.Name = "lblLogo";
+            lblLogo.Size = new Size(139, 45);
+            lblLogo.TabIndex = 12;
+            lblLogo.Text = "MyBibit";
             // 
             // picLogout
             // 
@@ -198,18 +245,6 @@
             lblTagline.Size = new Size(146, 25);
             lblTagline.TabIndex = 2;
             lblTagline.Text = "Kelola Bibit Anda";
-            // 
-            // lblLogo
-            // 
-            lblLogo.AutoSize = true;
-            lblLogo.BackColor = Color.Transparent;
-            lblLogo.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblLogo.ForeColor = Color.White;
-            lblLogo.Location = new Point(44, 103);
-            lblLogo.Name = "lblLogo";
-            lblLogo.Size = new Size(139, 45);
-            lblLogo.TabIndex = 1;
-            lblLogo.Text = "MyBibit";
             // 
             // picLogo
             // 
@@ -502,6 +537,7 @@
             Size = new Size(2000, 1500);
             pnlSidebar.ResumeLayout(false);
             pnlSidebar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)picLogout).EndInit();
             ((System.ComponentModel.ISupportInitialize)picRiwayat).EndInit();
             ((System.ComponentModel.ISupportInitialize)picDashboard).EndInit();
@@ -530,7 +566,6 @@
         private Button btnDashboard;
         private Button btnOrderDetail;
         private Label lblTagline;
-        private Label lblLogo;
         private PictureBox picLogo;
         private Button btnLogout;
         private PictureBox picLogout;
@@ -562,5 +597,8 @@
         private DataGridViewTextBoxColumn colTotalOrder;
         private DataGridViewComboBoxColumn colStatus;
         private DataGridViewButtonColumn colDetail;
+        private Label lblLogo;
+        private Button btnRestock;
+        private PictureBox pictureBox1;
     }
 }

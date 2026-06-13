@@ -2,7 +2,6 @@ using System;
 using System.Windows.Forms;
 using MyBibit.UserControls;
 using MyBibit.Database;
-using System.Collections.Generic;
 
 namespace MyBibit
 {
@@ -34,26 +33,37 @@ namespace MyBibit
             dashboard = new UCDashboard();
             dashboard.PindahKeCheckout += LoadCheckout;
             dashboard.PindahKeRiwayat += LoadRiwayat;
-
             LoadPage(dashboard);
-        }
-
-        public void LoadDashboardKaryawan()
-        {
-            UCDashboardKaryawan dashboardKaryawan = new UCDashboardKaryawan();
-            LoadPage(dashboardKaryawan);
         }
 
         public void LoadDashboardAdmin()
         {
-            UCAdminDashboard admin = new UCAdminDashboard();
-            LoadPage(admin);
+            LoadPage(new UCAdminDashboard());
+        }
+
+        public void LoadKaryawanAdmin()
+        {
+            LoadPage(new UCKaryawanAdmin());
+        }
+
+        public void LoadDashboardKaryawan()
+        {
+            LoadPage(new UCDashboardKaryawan());
         }
 
         public void LoadOrderDetailKaryawan()
         {
-            UCOrderDetailKaryawan orderDetail = new UCOrderDetailKaryawan();
-            LoadPage(orderDetail);
+            LoadPage(new UCOrderDetailKaryawan());
+        }
+
+        public void LoadRestockAdmin()
+        {
+            LoadPage(new UCRestockAdmin());
+        }
+
+        public void LoadRestockKaryawan()
+        {
+            LoadPage(new UCRestockKaryawan());
         }
 
         public void LoadLogin()
@@ -71,7 +81,6 @@ namespace MyBibit
             }
 
             UCCheckout checkout = new UCCheckout(dashboard.Keranjang);
-
             checkout.PindahKeDashboard += LoadDashboard;
             checkout.PindahKeRiwayat += LoadRiwayat;
             checkout.PembayaranBerhasil += () =>

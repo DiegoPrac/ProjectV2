@@ -72,8 +72,14 @@ namespace MyBibit.UserControls
             return "Rp " + angka.ToString("N0", new CultureInfo("id-ID"));
         }
 
-        private void LoadProduk(string keyword = "")
+        private void LoadProduk()
         {
+            LoadProduk("");
+        }
+
+        private void LoadProduk(string keyword)
+        
+            {
             pnlContent.Controls.Clear();
             keranjang.Clear();
 
