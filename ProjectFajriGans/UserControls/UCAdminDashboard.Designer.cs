@@ -269,7 +269,7 @@
             btnKaryawan.Text = "Karyawan";
             btnKaryawan.TextAlign = ContentAlignment.MiddleLeft;
             btnKaryawan.UseVisualStyleBackColor = false;
-            btnKaryawan.Click += this.btnKaryawan_Click;
+            btnKaryawan.Click += btnKaryawan_Click;
             // 
             // lblTagline
             // 

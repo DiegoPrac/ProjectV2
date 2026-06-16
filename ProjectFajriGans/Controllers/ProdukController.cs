@@ -22,8 +22,6 @@ namespace MyBibit.Controllers
                         k.nama AS kategori,
                         p.harga,
                         p.kuantitas,
-                        p.tinggi,
-                        p.umur,
                         p.tanggal_expired,
                         p.foto,
                         p.id_kategori

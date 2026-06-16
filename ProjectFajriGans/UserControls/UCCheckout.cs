@@ -174,11 +174,11 @@ namespace MyBibit.UserControls
 
             if (berhasil)
             {
-                foreach (var item in keranjang)
-                {
-                    if (item.Value > 0)
-                        ProdukController.KurangiStok(item.Key, item.Value);
-                }
+                //foreach (var item in keranjang)
+                //{
+                //    if (item.Value > 0)
+                //        ProdukController.KurangiStok(item.Key, item.Value);
+                //}
 
                 btnEwallet.Enabled = false;
                 PembayaranBerhasil();
