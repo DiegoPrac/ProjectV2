@@ -76,13 +76,37 @@ namespace MyBibit.Controllers
                 conn.Open();
 
                 string query = @"
-                    SELECT
-                        nama AS ""Nama"",
-                        nama_perusahaan AS ""Perusahaan"",
-                        alamat AS ""Alamat"",
-                        no_telp AS ""No Telepon""
-                    FROM supplier
-                    ORDER BY id_supplier DESC";
+            SELECT
+                nama AS ""Nama"",
+                nama_perusahaan AS ""Perusahaan"",
+                alamat AS ""Alamat"",
+                no_telp AS ""No Telepon""
+            FROM supplier
+            ORDER BY id_supplier DESC";
+
+                using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conn))
+                {
+                    da.Fill(dt);
+                }
+            }
+
+            return dt;
+        }
+
+        public static DataTable AmbilSupplierCombo()
+        {
+            DataTable dt = new DataTable();
+
+            using (NpgsqlConnection conn = DbConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query = @"
+            SELECT 
+                id_supplier,
+                nama_perusahaan
+            FROM supplier
+            ORDER BY nama_perusahaan ASC";
 
                 using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conn))
                 {
@@ -113,72 +137,30 @@ namespace MyBibit.Controllers
             }
         }
 
-        public static void TambahRestockOtomatis(int idProduk, int harga, int kuantitas, string username)
+        public static void TambahRestockOtomatis(int idProduk, int harga, int kuantitas, string username, int idSupplier)
         {
-            int idRestock;
             using (NpgsqlConnection conn = DbConnection.GetConnection())
             {
                 conn.Open();
 
-                using (NpgsqlTransaction trans = conn.BeginTransaction())
+                string query = @"
+            CALL proses_restock(
+                @idProduk,
+                @harga,
+                @kuantitas,
+                @username,
+                @idSupplier
+            )";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                 {
-                    try
-                    {
-                        int idUsers = 0;
+                    cmd.Parameters.AddWithValue("@idProduk", idProduk);
+                    cmd.Parameters.AddWithValue("@harga", harga);
+                    cmd.Parameters.AddWithValue("@kuantitas", kuantitas);
+                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.Parameters.AddWithValue("@idSupplier", idSupplier);
 
-                        string queryUser = @"
-                            SELECT id_users
-                            FROM users
-                            WHERE username = @username
-                            LIMIT 1";
-
-                        using (NpgsqlCommand cmd = new NpgsqlCommand(queryUser, conn, trans))
-                        {
-                            cmd.Parameters.AddWithValue("@username", username);
-                            object result = cmd.ExecuteScalar();
-
-                            if (result == null)
-                                throw new Exception("User login tidak ditemukan.");
-
-                            idUsers = Convert.ToInt32(result);
-                        }
-
-                        string queryRestock = @"
-                            INSERT INTO restock (tanggal, id_users, id_supplier, status)
-                            VALUES (
-                                CURRENT_DATE,
-                                @idUsers,
-                                (SELECT id_supplier FROM supplier ORDER BY id_supplier ASC LIMIT 1),
-                                false
-                            )
-                            RETURNING id_restock";
-
-                        using (NpgsqlCommand cmd = new NpgsqlCommand(queryRestock, conn, trans))
-                        {
-                            cmd.Parameters.AddWithValue("@idUsers", idUsers);
-                            idRestock = Convert.ToInt32(cmd.ExecuteScalar());
-                        }
-
-                        string queryDetail = @"
-                            INSERT INTO detail_restock (id_restock, id_produk, harga, kuantitas)
-                            VALUES (@idRestock, @idProduk, @harga, @kuantitas)";
-
-                        using (NpgsqlCommand cmd = new NpgsqlCommand(queryDetail, conn, trans))
-                        {
-                            cmd.Parameters.AddWithValue("@idRestock", idRestock);
-                            cmd.Parameters.AddWithValue("@idProduk", idProduk);
-                            cmd.Parameters.AddWithValue("@harga", harga);
-                            cmd.Parameters.AddWithValue("@kuantitas", kuantitas);
-                            cmd.ExecuteNonQuery();
-                        }
-
-                        trans.Commit();
-                    }
-                    catch
-                    {
-                        trans.Rollback();
-                        throw;
-                    }
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

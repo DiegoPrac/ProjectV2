@@ -99,6 +99,21 @@ namespace MyBibit.UserControls
             formsPlotPenjualan.Refresh();
         }
 
+        private void LockGrid(DataGridView dgv)
+        {
+            dgv.ReadOnly = true;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.AllowUserToResizeColumns = false;
+            dgv.AllowUserToOrderColumns = false;
+            dgv.RowHeadersVisible = false;
+            dgv.MultiSelect = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
         private void BuatPopupLaporan()
         {
             pnlOverlay = new Panel();
@@ -136,6 +151,7 @@ namespace MyBibit.UserControls
             dgvLaporan.AllowUserToAddRows = false;
             dgvLaporan.RowHeadersVisible = false;
             dgvLaporan.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            LockGrid(dgvLaporan);
 
             pnlLaporan.Controls.Add(title);
             pnlLaporan.Controls.Add(btnTutup);
@@ -171,6 +187,7 @@ namespace MyBibit.UserControls
             dgvDetail.AllowUserToAddRows = false;
             dgvDetail.RowHeadersVisible = false;
             dgvDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            LockGrid(dgvDetail);
 
             pnlDetail.Controls.Add(titleDetail);
             pnlDetail.Controls.Add(btnTutupDetail);

@@ -36,6 +36,8 @@ namespace MyBibit.UserControls
             pnlOverlay.Visible = false;
             pnlPopupProduk.Visible = false;
 
+            LoadSupplier();
+
             LoadProdukAktif();
 
             txtCariBibit.TextChanged += txtCariBibit_TextChanged;
@@ -247,7 +249,7 @@ namespace MyBibit.UserControls
             pnlOverlay.Dock = DockStyle.Fill;
             pnlOverlay.BackColor = Color.FromArgb(180, 0, 0, 0);
 
-            pnlPopupProduk.Size = new Size(420, 680);
+            pnlPopupProduk.Size = new Size(450, 710);
             pnlPopupProduk.BackColor = Color.White;
             pnlPopupProduk.BorderStyle = BorderStyle.FixedSingle;
 
@@ -425,18 +427,26 @@ namespace MyBibit.UserControls
 
                 if (stok > stokLamaEdit)
                 {
-                    int jumlahRestock = stok - stokLamaEdit;
+                    if (cmbSupplier.SelectedValue == null)
+                    {
+                        MessageBox.Show("Pilih supplier terlebih dahulu!");
+                        return;
+                    }
 
+                    int jumlahRestock = stok - stokLamaEdit;
                     int hargaSupplier = harga - 1000;
 
                     if (hargaSupplier < 0)
                         hargaSupplier = harga;
 
+                    int idSupplier = Convert.ToInt32(cmbSupplier.SelectedValue);
+
                     RestockController.TambahRestockOtomatis(
                         idProdukEdit,
                         hargaSupplier,
                         jumlahRestock,
-                        Session.Username
+                        Session.Username,
+                        idSupplier
                     );
                 }
 
@@ -458,6 +468,15 @@ namespace MyBibit.UserControls
 
             TutupPopupProduk();
             LoadProdukAktif();
+        }
+
+        private void LoadSupplier()
+        {
+            DataTable dt = RestockController.AmbilSupplierCombo();
+
+            cmbSupplier.DataSource = dt;
+            cmbSupplier.DisplayMember = "nama_perusahaan";
+            cmbSupplier.ValueMember = "id_supplier";
         }
 
         private void btnBatalProduk_Click(object sender, EventArgs e)

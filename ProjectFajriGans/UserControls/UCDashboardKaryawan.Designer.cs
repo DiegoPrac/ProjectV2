@@ -102,6 +102,7 @@
             lblDaftarBibit = new Label();
             btnTambahProduk = new Button();
             pnlPopupProduk = new Panel();
+            cmbSupplier = new ComboBox();
             dtpExpired = new DateTimePicker();
             lblExpired = new Label();
             cmbKategori = new ComboBox();
@@ -1093,6 +1094,7 @@
             // 
             pnlPopupProduk.BackColor = Color.White;
             pnlPopupProduk.BorderStyle = BorderStyle.FixedSingle;
+            pnlPopupProduk.Controls.Add(cmbSupplier);
             pnlPopupProduk.Controls.Add(dtpExpired);
             pnlPopupProduk.Controls.Add(lblExpired);
             pnlPopupProduk.Controls.Add(cmbKategori);
@@ -1109,13 +1111,22 @@
             pnlPopupProduk.Controls.Add(picProduk);
             pnlPopupProduk.Location = new Point(1302, 321);
             pnlPopupProduk.Name = "pnlPopupProduk";
-            pnlPopupProduk.Size = new Size(450, 650);
+            pnlPopupProduk.Size = new Size(450, 721);
             pnlPopupProduk.TabIndex = 32;
             pnlPopupProduk.Visible = false;
             // 
+            // cmbSupplier
+            // 
+            cmbSupplier.FormattingEnabled = true;
+            cmbSupplier.Location = new Point(145, 472);
+            cmbSupplier.Name = "cmbSupplier";
+            cmbSupplier.Size = new Size(151, 33);
+            cmbSupplier.TabIndex = 14;
+            cmbSupplier.Text = "Supplier";
+            // 
             // dtpExpired
             // 
-            dtpExpired.Location = new Point(74, 560);
+            dtpExpired.Location = new Point(148, 600);
             dtpExpired.Name = "dtpExpired";
             dtpExpired.Size = new Size(148, 31);
             dtpExpired.TabIndex = 13;
@@ -1124,7 +1135,7 @@
             // 
             lblExpired.AutoSize = true;
             lblExpired.ForeColor = Color.DarkGreen;
-            lblExpired.Location = new Point(74, 529);
+            lblExpired.Location = new Point(145, 572);
             lblExpired.Name = "lblExpired";
             lblExpired.Size = new Size(136, 25);
             lblExpired.TabIndex = 12;
@@ -1134,7 +1145,7 @@
             // 
             cmbKategori.FormattingEnabled = true;
             cmbKategori.Items.AddRange(new object[] { "Buah", "Sayur" });
-            cmbKategori.Location = new Point(74, 491);
+            cmbKategori.Location = new Point(146, 536);
             cmbKategori.Name = "cmbKategori";
             cmbKategori.Size = new Size(148, 33);
             cmbKategori.TabIndex = 11;
@@ -1143,7 +1154,7 @@
             // 
             lblKategori.AutoSize = true;
             lblKategori.ForeColor = Color.DarkGreen;
-            lblKategori.Location = new Point(74, 463);
+            lblKategori.Location = new Point(146, 508);
             lblKategori.Name = "lblKategori";
             lblKategori.Size = new Size(78, 25);
             lblKategori.TabIndex = 10;
@@ -1153,7 +1164,7 @@
             // 
             labelStokProduk.AutoSize = true;
             labelStokProduk.ForeColor = Color.DarkGreen;
-            labelStokProduk.Location = new Point(73, 394);
+            labelStokProduk.Location = new Point(145, 396);
             labelStokProduk.Name = "labelStokProduk";
             labelStokProduk.Size = new Size(47, 25);
             labelStokProduk.TabIndex = 9;
@@ -1163,7 +1174,7 @@
             // 
             LabelHargaProduk.AutoSize = true;
             LabelHargaProduk.ForeColor = Color.DarkGreen;
-            LabelHargaProduk.Location = new Point(73, 320);
+            LabelHargaProduk.Location = new Point(145, 334);
             LabelHargaProduk.Name = "LabelHargaProduk";
             LabelHargaProduk.Size = new Size(60, 25);
             LabelHargaProduk.TabIndex = 8;
@@ -1173,7 +1184,7 @@
             // 
             LabelNamaProduk.AutoSize = true;
             LabelNamaProduk.ForeColor = Color.DarkGreen;
-            LabelNamaProduk.Location = new Point(73, 250);
+            LabelNamaProduk.Location = new Point(145, 272);
             LabelNamaProduk.Name = "LabelNamaProduk";
             LabelNamaProduk.Size = new Size(59, 25);
             LabelNamaProduk.TabIndex = 7;
@@ -1183,7 +1194,7 @@
             // 
             btnSimpanProduk.BackColor = Color.Green;
             btnSimpanProduk.ForeColor = Color.White;
-            btnSimpanProduk.Location = new Point(235, 620);
+            btnSimpanProduk.Location = new Point(235, 660);
             btnSimpanProduk.Name = "btnSimpanProduk";
             btnSimpanProduk.Size = new Size(112, 34);
             btnSimpanProduk.TabIndex = 6;
@@ -1195,7 +1206,7 @@
             // 
             btnBatalProduk.BackColor = Color.Gray;
             btnBatalProduk.ForeColor = Color.DarkGreen;
-            btnBatalProduk.Location = new Point(74, 620);
+            btnBatalProduk.Location = new Point(73, 660);
             btnBatalProduk.Name = "btnBatalProduk";
             btnBatalProduk.Size = new Size(112, 34);
             btnBatalProduk.TabIndex = 5;
@@ -1205,7 +1216,7 @@
             // 
             // txtStokProduk
             // 
-            txtStokProduk.Location = new Point(73, 422);
+            txtStokProduk.Location = new Point(147, 426);
             txtStokProduk.Name = "txtStokProduk";
             txtStokProduk.PlaceholderText = "Masukkan Stok";
             txtStokProduk.Size = new Size(149, 31);
@@ -1213,7 +1224,7 @@
             // 
             // txtHargaProduk
             // 
-            txtHargaProduk.Location = new Point(73, 348);
+            txtHargaProduk.Location = new Point(145, 362);
             txtHargaProduk.Name = "txtHargaProduk";
             txtHargaProduk.PlaceholderText = "Masukkan Harga";
             txtHargaProduk.Size = new Size(149, 31);
@@ -1221,7 +1232,7 @@
             // 
             // txtNamaProduk
             // 
-            txtNamaProduk.Location = new Point(69, 278);
+            txtNamaProduk.Location = new Point(145, 300);
             txtNamaProduk.Name = "txtNamaProduk";
             txtNamaProduk.PlaceholderText = "Masukkan Nama";
             txtNamaProduk.Size = new Size(149, 31);
@@ -1475,5 +1486,6 @@
         private Button btnSemua;
         private Button btnRestock;
         private PictureBox pictureBox1;
+        private ComboBox cmbSupplier;
     }
 }

@@ -16,19 +16,20 @@ namespace MyBibit.Controllers
                 conn.Open();
 
                 string query = @"
-                    SELECT 
-                        p.id_produk AS id,
-                        p.nama,
-                        k.nama AS kategori,
-                        p.harga,
-                        p.kuantitas,
-                        p.tanggal_expired,
-                        p.foto,
-                        p.id_kategori
-                    FROM produk p
-                    JOIN kategori k ON p.id_kategori = k.id_kategori
-                    WHERE p.is_deleted = FALSE
-                    ORDER BY p.id_produk";
+                SELECT 
+                    p.id_produk AS id,
+                    p.nama,
+                    k.nama AS kategori,
+                    p.harga,
+                    p.kuantitas,
+                    cek_stok(p.kuantitas) AS status_stok,
+                    p.tanggal_expired,
+                    p.foto,
+                    p.id_kategori
+                FROM produk p
+                JOIN kategori k ON p.id_kategori = k.id_kategori
+                WHERE p.is_deleted = FALSE
+                ORDER BY p.id_produk";
 
                 using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conn))
                 {

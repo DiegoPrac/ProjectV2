@@ -16,21 +16,15 @@ namespace MyBibit.Controllers
                 conn.Open();
 
                 string query = @"
-                    SELECT 
-                        o.id_order AS id,
-                        o.tanggal AS ""Tanggal"",
-                        u.username AS ""Customer"",
-                        COALESCE(SUM(d.subtotal), 0) AS ""Total Order"",
-                        CASE 
-                            WHEN o.status = true THEN 'Selesai'
-                            ELSE 'Diproses'
-                        END AS ""Status""
-                    FROM orders o
-                    JOIN users u ON o.id_users = u.id_users
-                    LEFT JOIN detail_order d ON o.id_order = d.id_order
-                    GROUP BY o.id_order, o.tanggal, u.username, o.status
-                    ORDER BY o.id_order DESC";
-
+                  SELECT 
+                   id_order AS id,
+                   tanggal AS ""Tanggal"",
+                  username AS ""Customer"",
+                   total_order AS ""Total Order"",
+                 status_order AS ""Status""
+                 FROM v_laporan_order
+                  ORDER BY id_order DESC";
+    
                 using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conn))
                 {
                     da.Fill(dt);
@@ -77,17 +71,15 @@ namespace MyBibit.Controllers
                 conn.Open();
 
                 string query = @"
-                    SELECT 
-                        o.id_order AS id,
-                        o.tanggal,
-                        u.username AS customer,
-                        COALESCE(SUM(d.subtotal), 0) AS total_order,
-                        o.status
-                    FROM orders o
-                    JOIN users u ON o.id_users = u.id_users
-                    LEFT JOIN detail_order d ON o.id_order = d.id_order
-                    GROUP BY o.id_order, o.tanggal, u.username, o.status
-                    ORDER BY o.id_order DESC";
+                  SELECT 
+                 o.id_order AS id,
+                   o.tanggal,
+                  u.username AS customer,
+                  total_order(o.id_order) AS total_order,
+                  o.status
+                 FROM orders o
+                JOIN users u ON o.id_users = u.id_users
+                  ORDER BY o.id_order DESC";
 
                 using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conn))
                 {
