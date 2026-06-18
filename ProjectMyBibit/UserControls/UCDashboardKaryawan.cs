@@ -510,12 +510,5 @@ namespace MyBibit.UserControls
         private void btnHapusRambutan_Click(object sender, EventArgs e) { }
         private void btnHapusCabai_Click(object sender, EventArgs e) { }
         private void btnHapusMangga_Click(object sender, EventArgs e) { }
-
-        private void btnEditJeruk_Click(object sender, EventArgs e) { }
-        private void btnEditJambu_Click(object sender, EventArgs e) { }
-        private void btnEditAlpukat_Click(object sender, EventArgs e) { }
-        private void btnEditRambutan_Click(object sender, EventArgs e) { }
-        private void btnEditCabai_Click(object sender, EventArgs e) { }
-        private void btnEditMangga_Click(object sender, EventArgs e) { }
     }
 }
